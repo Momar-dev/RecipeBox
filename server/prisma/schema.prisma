@@ -1,0 +1,155 @@
+// ═══════════════════════════════════════════════════════════════════════════
+// Recipe Box — Schéma Prisma (Phase 2)
+// Stack : PostgreSQL + Prisma ORM
+// ═══════════════════════════════════════════════════════════════════════════
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ─── Enums ────────────────────────────────────────────────────────────────────
+// Note : 'all' n'est pas une catégorie réelle — c'est un filtre UI frontend.
+
+enum Category {
+  starter
+  main
+  dessert
+  breakfast
+  vegetarian
+  baking
+}
+
+enum Difficulty {
+  easy
+  medium
+  hard
+}
+
+// ─── User ─────────────────────────────────────────────────────────────────────
+
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String
+  name         String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  // Relations
+  // onDelete: SetNull → la suppression d'un utilisateur ne supprime PAS ses recettes.
+  // Cela protège les recettes partagées ou publiques d'une suppression accidentelle.
+  recipes   Recipe[]
+  favorites Favorite[]
+
+  @@map("users")
+}
+
+// ─── Recipe ───────────────────────────────────────────────────────────────────
+
+model Recipe {
+  id            String     @id @default(cuid())
+  titleFr       String
+  titleEn       String?
+  descriptionFr String     @db.Text
+  descriptionEn String?    @db.Text
+  category      Category
+  prepTime      Int        /// Temps de préparation en minutes
+  cookTime      Int        /// Temps de cuisson en minutes
+  servings      Int
+  difficulty    Difficulty
+  imageUrl      String
+  isFeatured    Boolean    @default(false)
+  isCustom      Boolean    @default(false) /// true = créée par un utilisateur
+  isPublic      Boolean    @default(true)  /// false = recette privée (visible uniquement par l'auteur)
+  chefNoteFr    String?    @db.Text
+  chefNoteEn    String?    @db.Text
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+
+  // Auteur optionnel — SetNull si l'utilisateur est supprimé (les recettes survivent)
+  authorId String?
+  author   User?   @relation(fields: [authorId], references: [id], onDelete: SetNull)
+
+  // Relations avec suppression en cascade
+  ingredients Ingredient[]
+  steps       RecipeStep[]
+  tags        RecipeTag[]
+  favorites   Favorite[]
+
+  @@map("recipes")
+}
+
+// ─── Ingredient ───────────────────────────────────────────────────────────────
+
+model Ingredient {
+  id       String  @id @default(cuid())
+  nameFr   String
+  nameEn   String?
+  quantity Float?  /// null = ingrédient sans quantité précise (ex: "sel, poivre")
+  unitFr   String
+  unitEn   String?
+  order    Int     @default(0) /// Ordre d'affichage dans la liste
+
+  recipeId String
+  recipe   Recipe @relation(fields: [recipeId], references: [id], onDelete: Cascade)
+
+  @@map("ingredients")
+}
+
+// ─── RecipeStep ───────────────────────────────────────────────────────────────
+
+model RecipeStep {
+  id            String  @id @default(cuid())
+  stepNumber    Int
+  instructionFr String  @db.Text
+  instructionEn String? @db.Text
+  tipFr         String? @db.Text /// Astuce du chef (FR)
+  tipEn         String? @db.Text /// Astuce du chef (EN)
+
+  recipeId String
+  recipe   Recipe @relation(fields: [recipeId], references: [id], onDelete: Cascade)
+
+  @@map("recipe_steps")
+}
+
+// ─── Tag & RecipeTag ──────────────────────────────────────────────────────────
+
+model Tag {
+  id     String  @id @default(cuid())
+  nameFr String  @unique
+  nameEn String?
+
+  recipes RecipeTag[]
+
+  @@map("tags")
+}
+
+model RecipeTag {
+  recipeId String
+  tagId    String
+
+  recipe Recipe @relation(fields: [recipeId], references: [id], onDelete: Cascade)
+  tag    Tag    @relation(fields: [tagId], references: [id], onDelete: Cascade)
+
+  @@id([recipeId, tagId])
+  @@map("recipe_tags")
+}
+
+// ─── Favorite ─────────────────────────────────────────────────────────────────
+
+model Favorite {
+  userId    String
+  recipeId  String
+  createdAt DateTime @default(now())
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  recipe Recipe @relation(fields: [recipeId], references: [id], onDelete: Cascade)
+
+  @@id([userId, recipeId])
+  @@map("favorites")
+}
