@@ -2,17 +2,16 @@ import multer, { MulterError } from 'multer';
 import { Request, Response, NextFunction } from 'express';
 import { MAX_IMAGE_SIZE_BYTES } from '../validators/imageValidator';
 
-// Stockage exclusivement en mémoire vive (aucun fichier temporaire sur le disque)
 const storage = multer.memoryStorage();
 
 const upload = multer({
   storage,
   limits: {
-    fileSize: MAX_IMAGE_SIZE_BYTES, // 5 Mo
+    fileSize: MAX_IMAGE_SIZE_BYTES,
     files: 1,
   },
   fileFilter: (_req, file, cb) => {
-    // Premier filtre sur le type MIME déclaré
+
     const allowedMimeTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
     if (allowedMimeTypes.includes(file.mimetype.toLowerCase())) {
       cb(null, true);
@@ -22,7 +21,6 @@ const upload = multer({
   },
 });
 
-// Middleware d'interception avec gestion propre des erreurs de taille et de format
 export function handleSingleImageUpload(fieldName = 'image') {
   const multerSingle = upload.single(fieldName);
 

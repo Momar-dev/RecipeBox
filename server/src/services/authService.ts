@@ -23,7 +23,7 @@ function generateToken(payload: AuthTokenPayload): string {
     throw new Error('JWT_SECRET manquant dans les variables d\'environnement.');
   }
   const expiresIn = (process.env.JWT_EXPIRES_IN as string) || '7d';
-  // jwt.sign accepte StringLike ou un objet — cast nécessaire pour TS
+
   return jwt.sign(payload as object, secret, { expiresIn } as jwt.SignOptions);
 }
 
@@ -42,17 +42,13 @@ function toUserResponse(user: {
 }
 
 export class AuthService {
-  /**
-   * Inscrit un nouvel utilisateur.
-   * Retourne le token JWT et les informations publiques de l'utilisateur.
-   * Lève une erreur avec code 'EMAIL_TAKEN' si l'email est déjà utilisé.
-   */
+
   async register(data: {
     email: string;
     password: string;
     name?: string;
   }): Promise<{ token: string; user: AuthUserResponse }> {
-    // Vérifier si l'email est déjà pris
+
     const existing = await prisma.user.findUnique({
       where: { email: data.email },
     });
@@ -63,10 +59,8 @@ export class AuthService {
       throw err;
     }
 
-    // Hacher le mot de passe
     const passwordHash = await bcrypt.hash(data.password, BCRYPT_ROUNDS);
 
-    // Créer l'utilisateur
     const user = await prisma.user.create({
       data: {
         email: data.email,
@@ -84,21 +78,15 @@ export class AuthService {
     return { token, user: toUserResponse(user) };
   }
 
-  /**
-   * Authentifie un utilisateur avec email + mot de passe.
-   * Retourne le token JWT et les informations publiques de l'utilisateur.
-   * Lève une erreur avec code 'INVALID_CREDENTIALS' si l'authentification échoue.
-   */
   async login(data: {
     email: string;
     password: string;
   }): Promise<{ token: string; user: AuthUserResponse }> {
-    // Recherche de l'utilisateur (message générique pour ne pas révéler l'existence)
+
     const user = await prisma.user.findUnique({
       where: { email: data.email },
     });
 
-    // Comparer même si l'utilisateur n'existe pas (prévention timing attack)
     const dummyHash = '$2b$12$invalidhashfortimingequalityXXXXXXXXXXXXXXXXXXXXXXXX';
     const passwordOk = await bcrypt.compare(
       data.password,
@@ -120,10 +108,6 @@ export class AuthService {
     return { token, user: toUserResponse(user) };
   }
 
-  /**
-   * Récupère le profil de l'utilisateur connecté par son ID.
-   * Retourne null si l'utilisateur n'existe plus.
-   */
   async getMe(userId: string): Promise<AuthUserResponse | null> {
     const user = await prisma.user.findUnique({
       where: { id: userId },

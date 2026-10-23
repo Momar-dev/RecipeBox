@@ -16,7 +16,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [token, setToken] = useState<string | null>(authStorage.getToken());
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
-  // Vérification de validité du jeton au montage
   const refreshUser = useCallback(async () => {
     const savedToken = authStorage.getToken();
     if (!savedToken) {

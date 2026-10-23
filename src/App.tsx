@@ -39,7 +39,6 @@ function RecipeBoxMain() {
   const { t, language } = useLanguage();
   const { user, token, isAuthenticated } = useAuth();
 
-  // State
   const [recipes, setRecipes] = useState<Recipe[]>([]);
   const [favorites, setFavorites] = useState<string[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
@@ -49,7 +48,6 @@ function RecipeBoxMain() {
   const [selectedRecipeId, setSelectedRecipeId] = useState<string | null>(null);
   const [filters, setFilters] = useState<RecipeFilterState>(DEFAULT_FILTERS);
 
-  // Modals & Notifications
   const [toasts, setToasts] = useState<ToastMessage[]>([]);
   const [isStageInfoOpen, setIsStageInfoOpen] = useState(false);
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
@@ -83,7 +81,6 @@ function RecipeBoxMain() {
     setToasts((prev) => prev.filter((toast) => toast.id !== id));
   };
 
-  // Chargement des recettes + favoris au démarrage
   const loadData = useCallback(async () => {
     try {
       setLoading(true);
@@ -106,7 +103,6 @@ function RecipeBoxMain() {
     loadData();
   }, [loadData]);
 
-  // Sync hash routing
   useEffect(() => {
     const handleHashChange = () => {
       const hash = window.location.hash;
@@ -128,7 +124,6 @@ function RecipeBoxMain() {
     return () => window.removeEventListener('hashchange', handleHashChange);
   }, []);
 
-  // Update URL hash when view changes
   const navigateTo = (view: ViewMode, recipeId?: string) => {
     if (view === 'create' && !isAuthenticated) {
       setAuthModalMode('login');
@@ -154,24 +149,23 @@ function RecipeBoxMain() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  // Toggle Favorite — API pour utilisateurs connectés, localStorage pour anonymes
   const handleToggleFavorite = async (recipeId: string, e: React.MouseEvent) => {
     e.stopPropagation();
     const isCurrentlyFav = favorites.includes(recipeId);
     try {
       if (isCurrentlyFav) {
-        // Optimistic UI : retrait immédiat
+
         setFavorites((prev) => prev.filter((id) => id !== recipeId));
         await recipeService.removeFavorite(recipeId, token);
         addToast(t.toastRemovedFav, 'info');
       } else {
-        // Optimistic UI : ajout immédiat
+
         setFavorites((prev) => [...prev, recipeId]);
         await recipeService.addFavorite(recipeId, token);
         addToast(t.toastAddedFav, 'info');
       }
     } catch (err: any) {
-      // Rollback en cas d'erreur
+
       setFavorites((prev) =>
         isCurrentlyFav ? [...prev, recipeId] : prev.filter((id) => id !== recipeId)
       );
@@ -180,7 +174,6 @@ function RecipeBoxMain() {
     }
   };
 
-  // Filter Updates
   const handleUpdateFilters = (updates: Partial<RecipeFilterState>) => {
     setFilters((prev) => ({ ...prev, ...updates }));
   };
@@ -189,7 +182,6 @@ function RecipeBoxMain() {
     setFilters(DEFAULT_FILTERS);
   };
 
-  // Filtered & Featured Lists
   const filteredRecipes = useMemo(() => {
     return filterAndSortRecipes(recipes, filters, favorites, language);
   }, [recipes, filters, favorites, language]);
@@ -202,13 +194,11 @@ function RecipeBoxMain() {
     return recipes.filter((r) => favorites.includes(r.id));
   }, [recipes, favorites]);
 
-  // Selected Recipe for detail or edit
   const selectedRecipe = useMemo(() => {
     if (!selectedRecipeId) return null;
     return recipes.find((r) => r.id === selectedRecipeId) || null;
   }, [recipes, selectedRecipeId]);
 
-  // Save recipe (Create or Edit via Express REST API)
   const handleSaveRecipe = async (
     data: Omit<Recipe, 'id' | 'createdAt'>,
     existingId?: string
@@ -240,7 +230,6 @@ function RecipeBoxMain() {
     }
   };
 
-  // Delete Recipe
   const handleRequestDelete = (recipeId: string) => {
     if (!isAuthenticated || !token) {
       addToast('Authentification requise pour supprimer une recette.', 'error');
@@ -258,8 +247,8 @@ function RecipeBoxMain() {
           await recipeService.deleteRecipe(recipeId, token);
           setRecipes((prev) => prev.filter((r) => r.id !== recipeId));
           setFavorites((prev) => prev.filter((id) => id !== recipeId));
-          // Retire aussi le favori en base si l'utilisateur l'avait mis en favori
-          await recipeService.removeFavorite(recipeId, token).catch(() => {/* la recette n'était pas en favori */});
+
+          await recipeService.removeFavorite(recipeId, token).catch(() => {});
           setConfirmModalConfig((prev) => ({ ...prev, isOpen: false }));
           addToast(t.toastRecipeDeleted, 'success');
           navigateTo('home');
@@ -271,7 +260,6 @@ function RecipeBoxMain() {
     });
   };
 
-  // Reset to Demo Data
   const handleRequestResetData = () => {
     setConfirmModalConfig({
       isOpen: true,
@@ -296,7 +284,6 @@ function RecipeBoxMain() {
     });
   };
 
-  // Share recipe
   const handleShareRecipe = () => {
     try {
       if (navigator.clipboard) {
@@ -312,8 +299,7 @@ function RecipeBoxMain() {
 
   return (
     <div className="min-h-screen flex flex-col bg-stone-50 text-stone-900 selection:bg-amber-100 selection:text-amber-900">
-      
-      {/* Navigation */}
+
       <Navbar
         currentView={viewMode}
         onNavigate={(view) => navigateTo(view)}
@@ -325,11 +311,10 @@ function RecipeBoxMain() {
         }}
       />
 
-      {/* Main Content View Container */}
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 pt-8">
-        
+
         {loading ? (
-          /* Loading State Skeleton */
+
           <div className="py-20 text-center space-y-4">
             <div className="w-14 h-14 rounded-2xl bg-amber-500/20 text-amber-600 flex items-center justify-center mx-auto animate-pulse">
               <ChefHat className="w-8 h-8" />
@@ -339,7 +324,7 @@ function RecipeBoxMain() {
             </p>
           </div>
         ) : error ? (
-          /* Error State */
+
           <div className="bg-white rounded-3xl p-12 text-center border border-rose-200 max-w-lg mx-auto shadow-sm my-12">
             <div className="w-16 h-16 rounded-3xl bg-rose-50 text-rose-600 flex items-center justify-center mx-auto mb-4">
               <AlertTriangle className="w-8 h-8" />
@@ -355,7 +340,7 @@ function RecipeBoxMain() {
             </button>
           </div>
         ) : (
-          /* Normal View Router */
+
           <>
             {viewMode === 'home' && (
               <HomePage
@@ -412,17 +397,14 @@ function RecipeBoxMain() {
 
       </main>
 
-      {/* Footer */}
       <Footer
         onNavigate={(view) => navigateTo(view)}
         onRequestResetData={handleRequestResetData}
         onOpenStageInfo={() => setIsStageInfoOpen(true)}
       />
 
-      {/* Toast Notifications */}
       <ToastContainer toasts={toasts} onDismiss={dismissToast} />
 
-      {/* Action Confirmation Modal */}
       <ConfirmationModal
         isOpen={confirmModalConfig.isOpen}
         title={confirmModalConfig.title}
@@ -433,13 +415,11 @@ function RecipeBoxMain() {
         onCancel={() => setConfirmModalConfig((prev) => ({ ...prev, isOpen: false }))}
       />
 
-      {/* About & Culinary Philosophy Modal */}
       <StageInfoModal
         isOpen={isStageInfoOpen}
         onClose={() => setIsStageInfoOpen(false)}
       />
 
-      {/* Auth Modal (Login / Register) */}
       <AuthModal
         isOpen={isAuthModalOpen}
         initialMode={authModalMode}

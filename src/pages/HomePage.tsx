@@ -55,10 +55,9 @@ export const HomePage: React.FC<HomePageProps> = ({
 
   return (
     <div className="space-y-12 pb-16">
-      
-      {/* Hero Section with Editorial Culinary Depth */}
+
       <section className="relative rounded-3xl overflow-hidden bg-stone-950 text-white shadow-2xl border border-stone-800/80 perspective-1000">
-        {/* Background Image with warm culinary gradient */}
+
         <div className="absolute inset-0 z-0">
           <img
             src="https://images.unsplash.com/photo-1556910103-1c02745aae4d?auto=format&fit=crop&w=1920&q=80"
@@ -70,8 +69,7 @@ export const HomePage: React.FC<HomePageProps> = ({
         </div>
 
         <div className="relative z-10 max-w-5xl mx-auto px-6 py-14 sm:py-20 lg:py-24 text-center">
-          
-          {/* Subtle Top Badge */}
+
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-amber-500/20 border border-amber-500/40 text-amber-200 text-xs font-semibold mb-6 backdrop-blur-md shadow-xs animate-gentle-float">
             <ChefHat className="w-3.5 h-3.5 text-amber-400" />
             <span>{t.stageBadge}</span>
@@ -85,7 +83,6 @@ export const HomePage: React.FC<HomePageProps> = ({
             {t.heroSubtitle}
           </p>
 
-          {/* Hero Search Bar */}
           <div className="max-w-2xl mx-auto">
             <div className="relative flex items-center bg-white/95 backdrop-blur-md rounded-2xl shadow-2xl p-2 border border-stone-200/90 focus-within:ring-2 focus-within:ring-amber-500/50 transition-all">
               <Search className="w-5 h-5 text-stone-400 ml-3 shrink-0" />
@@ -118,10 +115,9 @@ export const HomePage: React.FC<HomePageProps> = ({
               </button>
             </div>
 
-            {/* Quick Inspiration Chips (NO EMOJIS - PURE SVG ICONS) */}
             <div className="flex flex-wrap items-center justify-center gap-2 mt-5 text-xs text-stone-300">
               <span className="text-stone-400 font-medium">{t.quickFilters}</span>
-              
+
               <button
                 type="button"
                 onClick={() => onUpdateFilters({ maxTotalTime: filters.maxTotalTime === 30 ? null : 30 })}
@@ -179,7 +175,6 @@ export const HomePage: React.FC<HomePageProps> = ({
         </div>
       </section>
 
-      {/* Featured Recipes Section (Only shown when not actively filtering) */}
       {!hasActiveFilters && featuredRecipes.length > 0 && (
         <section className="space-y-6">
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3 border-b border-stone-200 pb-4">
@@ -211,7 +206,6 @@ export const HomePage: React.FC<HomePageProps> = ({
         </section>
       )}
 
-      {/* Catalog & Search Filters Section */}
       <section id="catalog-section" className="space-y-6 pt-4">
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3">
           <div>
@@ -232,18 +226,15 @@ export const HomePage: React.FC<HomePageProps> = ({
           </button>
         </div>
 
-        {/* Category Pills Filter */}
         <CategoryFilter
           selectedCategory={filters.category}
           onSelectCategory={(category: Category) => onUpdateFilters({ category })}
           recipes={recipes}
         />
 
-        {/* Filter Toolbar */}
         <div className="bg-white p-4 sm:p-5 rounded-3xl border border-stone-200/90 shadow-xs space-y-4">
           <div className="flex flex-wrap items-center justify-between gap-3">
-            
-            {/* Inline search */}
+
             <div className="relative flex-1 min-w-[240px]">
               <Search className="w-4 h-4 text-stone-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
               <input
@@ -265,7 +256,6 @@ export const HomePage: React.FC<HomePageProps> = ({
               )}
             </div>
 
-            {/* Quick Sort Dropdown */}
             <div className="flex items-center gap-2">
               <label htmlFor="sort-select" className="text-xs font-semibold text-stone-600 hidden sm:block whitespace-nowrap">
                 {t.sortBy} :
@@ -284,7 +274,6 @@ export const HomePage: React.FC<HomePageProps> = ({
               </select>
             </div>
 
-            {/* Advanced Filters Toggle Button */}
             <button
               type="button"
               onClick={() => setShowAdvancedFilters(!showAdvancedFilters)}
@@ -298,7 +287,6 @@ export const HomePage: React.FC<HomePageProps> = ({
               <span>{t.filterDifficulty} & {t.filterMaxTime}</span>
             </button>
 
-            {/* Reset Filters Button if any active */}
             {hasActiveFilters && (
               <button
                 type="button"
@@ -313,10 +301,9 @@ export const HomePage: React.FC<HomePageProps> = ({
 
           </div>
 
-          {/* Advanced Filters Drawer */}
           {showAdvancedFilters && (
             <div className="pt-4 border-t border-stone-150 grid grid-cols-1 sm:grid-cols-3 gap-4 animate-in fade-in duration-150">
-              {/* Difficulty selector */}
+
               <div>
                 <label className="block text-xs font-bold text-stone-600 mb-1.5">
                   {t.filterDifficulty}
@@ -339,7 +326,6 @@ export const HomePage: React.FC<HomePageProps> = ({
                 </div>
               </div>
 
-              {/* Max Time selector */}
               <div>
                 <label className="block text-xs font-bold text-stone-600 mb-1.5">
                   {t.filterMaxTime}
@@ -367,7 +353,6 @@ export const HomePage: React.FC<HomePageProps> = ({
                 </div>
               </div>
 
-              {/* Favorites only checkbox button */}
               <div>
                 <label className="block text-xs font-bold text-stone-600 mb-1.5">
                   {t.navFavorites}
@@ -388,7 +373,6 @@ export const HomePage: React.FC<HomePageProps> = ({
             </div>
           )}
 
-          {/* Results count label */}
           <div className="pt-3 border-t border-stone-100 flex items-center justify-between text-xs text-stone-500 font-medium">
             <span>{t.resultsCount(filteredRecipes.length)}</span>
             {hasActiveFilters && (
@@ -399,7 +383,6 @@ export const HomePage: React.FC<HomePageProps> = ({
           </div>
         </div>
 
-        {/* Recipes Grid */}
         {filteredRecipes.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 sm:gap-8">
             {filteredRecipes.map((recipe) => (
@@ -413,7 +396,7 @@ export const HomePage: React.FC<HomePageProps> = ({
             ))}
           </div>
         ) : (
-          /* Empty State */
+
           <div className="bg-white rounded-3xl p-12 text-center border border-stone-200 max-w-lg mx-auto shadow-xs my-8">
             <div className="w-16 h-16 rounded-3xl bg-amber-50 text-amber-600 flex items-center justify-center mx-auto mb-4">
               <Search className="w-8 h-8" />

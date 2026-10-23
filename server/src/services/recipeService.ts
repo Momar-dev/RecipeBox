@@ -30,11 +30,7 @@ const RECIPE_INCLUDE = {
 } as const;
 
 export class RecipeService {
-  /**
-   * Récupère la liste des recettes avec filtres optionnels et pagination bornée.
-   * Gère la visibilité : si userId est fourni, retourne les recettes publiques
-   * ainsi que les recettes privées appartenant à cet utilisateur.
-   */
+
   async findAll(filters: RecipeFilters = {}): Promise<{
     recipes: TransformedRecipe[];
     total: number;
@@ -44,14 +40,12 @@ export class RecipeService {
   }> {
     const { search, category, difficulty, isFeatured, userId } = filters;
 
-    // Pagination sécurisée et bornée
     const page = Math.max(1, Number(filters.page) || 1);
     const limit = Math.min(100, Math.max(1, Number(filters.limit) || 50));
     const skip = (page - 1) * limit;
 
     const andConditions: Prisma.RecipeWhereInput[] = [];
 
-    // Isolation et visibilité
     if (userId) {
       andConditions.push({
         OR: [
@@ -135,9 +129,6 @@ export class RecipeService {
     };
   }
 
-  /**
-   * Récupère une recette par son ID
-   */
   async findById(id: string): Promise<TransformedRecipe | null> {
     const raw = await prisma.recipe.findUnique({
       where: { id },
@@ -148,11 +139,6 @@ export class RecipeService {
     return transformRecipe(raw);
   }
 
-  /**
-   * Crée une recette avec ses relations (ingrédients, étapes, tags).
-   * Les tags sont pré-résolus, puis la recette et ses relations sont créées
-   * de manière atomique par Prisma.
-   */
   async create(data: {
     titleFr: string;
     titleEn?: string;
@@ -189,7 +175,6 @@ export class RecipeService {
   }): Promise<TransformedRecipe> {
     const { ingredients, steps, tags, ...recipeFields } = data;
 
-    // 1. Assurer que les tags existent
     const tagRecords = await Promise.all(
       tags.map((tagName) =>
         prisma.tag.upsert({
@@ -200,7 +185,6 @@ export class RecipeService {
       )
     );
 
-    // 2. Créer la recette avec ingrédients, étapes et associations atomiquement
     const created = await prisma.recipe.create({
       data: {
         ...recipeFields,
@@ -222,9 +206,6 @@ export class RecipeService {
     return transformRecipe(created);
   }
 
-  /**
-   * Met à jour une recette existante et réconcilie ses relations
-   */
   async update(
     id: string,
     data: {
@@ -266,7 +247,6 @@ export class RecipeService {
 
     const { ingredients, steps, tags, ...scalarFields } = data;
 
-    // Pré-résolution des tags en amont
     let tagRecords: { id: string }[] = [];
     if (tags !== undefined && tags.length > 0) {
       tagRecords = await Promise.all(
@@ -282,13 +262,12 @@ export class RecipeService {
 
     const updated = await prisma.$transaction(
       async (tx) => {
-        // 1. Mise à jour des champs scalaires
+
         await tx.recipe.update({
           where: { id },
           data: scalarFields,
         });
 
-        // 2. Mise à jour des ingrédients si fournis
         if (ingredients !== undefined) {
           await tx.ingredient.deleteMany({ where: { recipeId: id } });
           if (ingredients.length > 0) {
@@ -301,7 +280,6 @@ export class RecipeService {
           }
         }
 
-        // 3. Mise à jour des étapes si fournies
         if (steps !== undefined) {
           await tx.recipeStep.deleteMany({ where: { recipeId: id } });
           if (steps.length > 0) {
@@ -314,7 +292,6 @@ export class RecipeService {
           }
         }
 
-        // 4. Mise à jour des tags si fournis
         if (tags !== undefined) {
           await tx.recipeTag.deleteMany({ where: { recipeId: id } });
           if (tagRecords.length > 0) {
@@ -341,10 +318,6 @@ export class RecipeService {
     return transformRecipe(updated);
   }
 
-  /**
-   * Supprime une recette. Grâce à onDelete: Cascade sur Ingredient, RecipeStep, RecipeTag, Favorite,
-   * toutes les relations dépendantes sont nettoyées automatiquement et proprement.
-   */
   async delete(id: string): Promise<boolean> {
     const exists = await prisma.recipe.findUnique({ where: { id } });
     if (!exists) return false;

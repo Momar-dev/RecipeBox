@@ -8,10 +8,7 @@ import {
 } from '../validators/recipeValidator';
 
 export class RecipeController {
-  /**
-   * GET /api/recipes
-   * Récupère les recettes publiques (+ les recettes privées de l'utilisateur connecté).
-   */
+
   async getAll(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
       const { search, category, difficulty, isFeatured, page, limit } = req.query;
@@ -41,11 +38,6 @@ export class RecipeController {
     }
   }
 
-  /**
-   * GET /api/recipes/:id
-   * Récupère une recette par son ID.
-   * Si la recette est privée, l'accès est réservé à son auteur.
-   */
   async getById(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
       const { id } = req.params;
@@ -59,7 +51,6 @@ export class RecipeController {
         return;
       }
 
-      // Contrôle de visibilité pour les recettes privées
       if (!recipe.isPublic && (!req.user || recipe.authorId !== req.user.id)) {
         res.status(403).json({
           status: 'error',
@@ -77,10 +68,6 @@ export class RecipeController {
     }
   }
 
-  /**
-   * POST /api/recipes
-   * Protégé par JWT. Associe automatiquement l'auteur depuis req.user.id.
-   */
   async create(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
       if (!req.user) {
@@ -101,7 +88,6 @@ export class RecipeController {
         return;
       }
 
-      // L'authorId provient exclusivement du jeton JWT authentifié (jamais du body)
       const created = await recipeService.create({
         ...validation.data,
         authorId: req.user.id,
@@ -117,10 +103,6 @@ export class RecipeController {
     }
   }
 
-  /**
-   * PUT /api/recipes/:id
-   * Protégé par JWT. Seul l'auteur peut modifier sa propre recette.
-   */
   async update(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
       if (!req.user) {
@@ -142,7 +124,6 @@ export class RecipeController {
         return;
       }
 
-      // Vérification stricte de propriété
       if (existing.authorId !== req.user.id) {
         res.status(403).json({
           status: 'error',
@@ -173,10 +154,6 @@ export class RecipeController {
     }
   }
 
-  /**
-   * DELETE /api/recipes/:id
-   * Protégé par JWT. Seul l'auteur peut supprimer sa propre recette.
-   */
   async delete(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
       if (!req.user) {
@@ -198,7 +175,6 @@ export class RecipeController {
         return;
       }
 
-      // Vérification stricte de propriété
       if (existing.authorId !== req.user.id) {
         res.status(403).json({
           status: 'error',

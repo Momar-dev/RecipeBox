@@ -7,14 +7,6 @@ interface JwtPayload {
   name: string | null;
 }
 
-/**
- * Middleware d'authentification JWT strict.
- *
- * Lit le header `Authorization: Bearer <token>`, vérifie sa validité et
- * injecte `req.user` si le jeton est valide.
- *
- * Retourne 401 si le jeton est absent, invalide ou expiré.
- */
 export function authMiddleware(
   req: Request,
   res: Response,
@@ -67,13 +59,6 @@ export function authMiddleware(
   }
 }
 
-/**
- * Middleware d'authentification JWT optionnel.
- *
- * Si un jeton Bearer est présent et valide, injecte `req.user`.
- * Si aucun en-tête n'est fourni ou si le jeton est absent, continue sans erreur (`req.user = undefined`).
- * Si un jeton est explicitement fourni mais invalide/expiré, on continue sans `req.user` (ou on ignore silencieusement pour la consultation publique).
- */
 export function optionalAuthMiddleware(
   req: Request,
   _res: Response,
@@ -100,7 +85,7 @@ export function optionalAuthMiddleware(
       name: decoded.name,
     };
   } catch {
-    // Si le jeton est invalide ou expiré, on ignore simplement pour l'authentification optionnelle
+
   }
 
   next();

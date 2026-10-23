@@ -1,9 +1,5 @@
 import { v2 as cloudinary } from 'cloudinary';
 
-/**
- * Initialisation et configuration du SDK Cloudinary.
- * Les variables sont lues depuis process.env sans jamais être exposées publiquement.
- */
 export function isCloudinaryConfigured(): boolean {
   const { CLOUDINARY_CLOUD_NAME, CLOUDINARY_API_KEY, CLOUDINARY_API_SECRET } = process.env;
   return Boolean(
@@ -31,7 +27,6 @@ export function configureCloudinary(): boolean {
   return true;
 }
 
-// Initialise la configuration si les variables sont présentes
 configureCloudinary();
 
 export { cloudinary };

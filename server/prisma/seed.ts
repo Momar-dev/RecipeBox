@@ -1,20 +1,8 @@
-/**
- * Recipe Box — Script de seed Prisma
- *
- * Insère les 8 recettes de démonstration dans la base de données.
- * IDEMPOTENT : plusieurs exécutions ne créent pas de doublons.
- *
- * Usage : npx prisma db seed
- *         (ou directement : npx tsx prisma/seed.ts)
- */
+
 
 import { PrismaClient, Category, Difficulty } from '@prisma/client';
 
 const prisma = new PrismaClient();
-
-// ─── Catalogue de tags FR/EN ──────────────────────────────────────────────────
-// nameFr est la clé unique. En cas de tag FR partagé par plusieurs recettes,
-// la première définition nameEn est conservée (update: {} ne réécrit pas).
 
 const TAG_CATALOG = [
   { nameFr: 'Sénégal', nameEn: 'Senegal' },
@@ -46,8 +34,6 @@ const TAG_CATALOG = [
   { nameFr: 'Gourmand', nameEn: 'Decadent' },
   { nameFr: 'Express', nameEn: 'Quick' },
 ] as const;
-
-// ─── Types pour le seed ───────────────────────────────────────────────────────
 
 interface SeedIngredient {
   id: string;
@@ -91,10 +77,8 @@ interface SeedRecipe {
   steps: SeedStep[];
 }
 
-// ─── Données des 8 recettes de démonstration ──────────────────────────────────
-
 const SEED_RECIPES: SeedRecipe[] = [
-  // ── rec-1 : Poulet Yassa Sénégalais ────────────────────────────────────────
+
   {
     id: 'rec-1',
     titleFr: 'Poulet Yassa Traditionnel Sénégalais',
@@ -134,7 +118,6 @@ const SEED_RECIPES: SeedRecipe[] = [
     ],
   },
 
-  // ── rec-2 : Risotto Crémeux aux Champignons ─────────────────────────────────
   {
     id: 'rec-2',
     titleFr: 'Risotto Crémeux aux Champignons des Bois',
@@ -173,7 +156,6 @@ const SEED_RECIPES: SeedRecipe[] = [
     ],
   },
 
-  // ── rec-3 : Tarte Tatin ─────────────────────────────────────────────────────
   {
     id: 'rec-3',
     titleFr: "Tarte Tatin Caramélisée à l'Ancienne",
@@ -210,7 +192,6 @@ const SEED_RECIPES: SeedRecipe[] = [
     ],
   },
 
-  // ── rec-4 : Shakshuka ───────────────────────────────────────────────────────
   {
     id: 'rec-4',
     titleFr: 'Shakshuka Épicée aux Œufs Coulants',
@@ -249,7 +230,6 @@ const SEED_RECIPES: SeedRecipe[] = [
     ],
   },
 
-  // ── rec-5 : Velouté Dubarry ─────────────────────────────────────────────────
   {
     id: 'rec-5',
     titleFr: 'Velouté Dubarry Rôti & Noisettes Torréfiées',
@@ -287,7 +267,6 @@ const SEED_RECIPES: SeedRecipe[] = [
     ],
   },
 
-  // ── rec-6 : Pain Rustique au Levain ────────────────────────────────────────
   {
     id: 'rec-6',
     titleFr: 'Pain Rustique au Levain Maison',
@@ -322,7 +301,6 @@ const SEED_RECIPES: SeedRecipe[] = [
     ],
   },
 
-  // ── rec-7 : Salade César Authentique ───────────────────────────────────────
   {
     id: 'rec-7',
     titleFr: 'Salade César Authentique & Croûtons Dorés',
@@ -361,7 +339,6 @@ const SEED_RECIPES: SeedRecipe[] = [
     ],
   },
 
-  // ── rec-8 : Moelleux au Chocolat ───────────────────────────────────────────
   {
     id: 'rec-8',
     titleFr: 'Moelleux au Chocolat Noir Cœur Coulant',
@@ -399,28 +376,23 @@ const SEED_RECIPES: SeedRecipe[] = [
   },
 ];
 
-// ─── Logique principale du seed ───────────────────────────────────────────────
-
 async function main() {
   console.log('🌱 Démarrage du seed Recipe Box...\n');
 
-  // 1. Upsert de tous les tags (idempotent sur nameFr)
   console.log(`📌 Création/vérification de ${TAG_CATALOG.length} tags...`);
   for (const tag of TAG_CATALOG) {
     await prisma.tag.upsert({
       where: { nameFr: tag.nameFr },
       create: { nameFr: tag.nameFr, nameEn: tag.nameEn },
-      update: {}, // ne pas écraser une traduction EN existante
+      update: {},
     });
   }
 
-  // 2. Upsert de chaque recette avec ses relations
   for (const recipe of SEED_RECIPES) {
     const { ingredients, steps, tagsFr, ...recipeData } = recipe;
 
     console.log(`\n🍽️  Traitement : ${recipeData.titleFr} (${recipeData.id})`);
 
-    // Upsert de la recette principale
     await prisma.recipe.upsert({
       where: { id: recipeData.id },
       create: recipeData,
@@ -441,7 +413,6 @@ async function main() {
       },
     });
 
-    // Suppression puis recréation des ingrédients (idempotent)
     await prisma.ingredient.deleteMany({ where: { recipeId: recipeData.id } });
     await prisma.ingredient.createMany({
       data: ingredients.map((ing) => ({
@@ -451,7 +422,6 @@ async function main() {
     });
     console.log(`   ✓ ${ingredients.length} ingrédients`);
 
-    // Suppression puis recréation des étapes (idempotent)
     await prisma.recipeStep.deleteMany({ where: { recipeId: recipeData.id } });
     await prisma.recipeStep.createMany({
       data: steps.map((step) => ({
@@ -461,7 +431,6 @@ async function main() {
     });
     console.log(`   ✓ ${steps.length} étapes`);
 
-    // Suppression puis recréation des associations de tags
     await prisma.recipeTag.deleteMany({ where: { recipeId: recipeData.id } });
     for (const tagFr of tagsFr) {
       const tag = await prisma.tag.findUnique({ where: { nameFr: tagFr } });
@@ -480,8 +449,6 @@ async function main() {
   console.log(`   ${SEED_RECIPES.length} recettes insérées ou mises à jour.`);
   console.log(`   ${TAG_CATALOG.length} tags créés ou vérifiés.`);
 }
-
-// ─── Exécution ────────────────────────────────────────────────────────────────
 
 main()
   .catch((err) => {

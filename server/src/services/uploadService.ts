@@ -11,16 +11,11 @@ export interface UploadResult {
 }
 
 export class UploadService {
-  /**
-   * Vérifie si Cloudinary est correctement paramétré.
-   */
+
   isConfigured(): boolean {
     return isCloudinaryConfigured();
   }
 
-  /**
-   * Téléverse un buffer d'image vers Cloudinary via upload_stream (sans écriture disque).
-   */
   async uploadRecipeImage(
     buffer: Buffer,
     options: { folder?: string; publicId?: string } = {}
@@ -29,7 +24,6 @@ export class UploadService {
       throw new Error('CLOUDINARY_NOT_CONFIGURED');
     }
 
-    // Assure l'application de la configuration
     configureCloudinary();
 
     const folder = options.folder || 'recipe-box/recipes';
@@ -42,7 +36,7 @@ export class UploadService {
           resource_type: 'image',
           allowed_formats: ['jpg', 'jpeg', 'png', 'webp'],
           transformation: [
-            // Optimisation automatique Cloudinary (qualité auto + format auto/webp)
+
             { quality: 'auto:good' },
             { fetch_format: 'auto' },
           ],
@@ -68,10 +62,6 @@ export class UploadService {
     });
   }
 
-  /**
-   * Supprime une image sur Cloudinary par son public_id.
-   * Utile pour les tests ou le nettoyage d'images temporaires.
-   */
   async deleteImage(publicId: string): Promise<boolean> {
     if (!this.isConfigured()) return false;
     try {

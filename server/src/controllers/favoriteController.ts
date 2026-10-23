@@ -2,11 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import { favoriteService } from '../services/favoriteService';
 
 export class FavoriteController {
-  /**
-   * GET /api/favorites
-   * Récupère les recettes favorites de l'utilisateur connecté.
-   * Protégé par JWT (authMiddleware).
-   */
+
   async getAll(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
       if (!req.user) {
@@ -29,10 +25,6 @@ export class FavoriteController {
     }
   }
 
-  /**
-   * GET /api/favorites/ids
-   * Récupère uniquement les IDs des favoris (format léger pour sync côté frontend).
-   */
   async getIds(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
       if (!req.user) {
@@ -54,11 +46,6 @@ export class FavoriteController {
     }
   }
 
-  /**
-   * POST /api/favorites/:recipeId
-   * Ajoute une recette aux favoris de l'utilisateur connecté.
-   * Idempotent : si le favori existe déjà, retourne 200 sans erreur.
-   */
   async add(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
       if (!req.user) {
@@ -106,10 +93,6 @@ export class FavoriteController {
     }
   }
 
-  /**
-   * DELETE /api/favorites/:recipeId
-   * Retire une recette des favoris de l'utilisateur connecté.
-   */
   async remove(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
       if (!req.user) {

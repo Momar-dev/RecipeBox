@@ -5,7 +5,6 @@ import { handleSingleImageUpload } from '../middleware/uploadMiddleware';
 
 const router = Router();
 
-// Téléversement d'une image de recette (protégé par JWT)
 router.post(
   '/recipe-image',
   authMiddleware,

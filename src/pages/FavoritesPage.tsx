@@ -34,8 +34,7 @@ export const FavoritesPage: React.FC<FavoritesPageProps> = ({
 
   return (
     <div className="space-y-8 pb-16">
-      
-      {/* Top Header */}
+
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-stone-200 pb-6">
         <div>
           <button
@@ -60,7 +59,6 @@ export const FavoritesPage: React.FC<FavoritesPageProps> = ({
           </div>
         </div>
 
-        {/* Filter inside favorites if there are any */}
         {favoriteRecipes.length > 0 && (
           <div className="relative min-w-[240px] sm:min-w-[280px]">
             <Search className="w-4 h-4 text-stone-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
@@ -85,7 +83,6 @@ export const FavoritesPage: React.FC<FavoritesPageProps> = ({
         )}
       </div>
 
-      {/* Grid or Empty State */}
       {filteredFavorites.length > 0 ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 sm:gap-8">
           {filteredFavorites.map((recipe) => (

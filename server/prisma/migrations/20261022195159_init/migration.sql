@@ -1,10 +1,8 @@
--- CreateEnum
+
 CREATE TYPE "Category" AS ENUM ('starter', 'main', 'dessert', 'breakfast', 'vegetarian', 'baking');
 
--- CreateEnum
 CREATE TYPE "Difficulty" AS ENUM ('easy', 'medium', 'hard');
 
--- CreateTable
 CREATE TABLE "users" (
     "id" TEXT NOT NULL,
     "email" TEXT NOT NULL,
@@ -16,7 +14,6 @@ CREATE TABLE "users" (
     CONSTRAINT "users_pkey" PRIMARY KEY ("id")
 );
 
--- CreateTable
 CREATE TABLE "recipes" (
     "id" TEXT NOT NULL,
     "titleFr" TEXT NOT NULL,
@@ -41,7 +38,6 @@ CREATE TABLE "recipes" (
     CONSTRAINT "recipes_pkey" PRIMARY KEY ("id")
 );
 
--- CreateTable
 CREATE TABLE "ingredients" (
     "id" TEXT NOT NULL,
     "nameFr" TEXT NOT NULL,
@@ -55,7 +51,6 @@ CREATE TABLE "ingredients" (
     CONSTRAINT "ingredients_pkey" PRIMARY KEY ("id")
 );
 
--- CreateTable
 CREATE TABLE "recipe_steps" (
     "id" TEXT NOT NULL,
     "stepNumber" INTEGER NOT NULL,
@@ -68,7 +63,6 @@ CREATE TABLE "recipe_steps" (
     CONSTRAINT "recipe_steps_pkey" PRIMARY KEY ("id")
 );
 
--- CreateTable
 CREATE TABLE "tags" (
     "id" TEXT NOT NULL,
     "nameFr" TEXT NOT NULL,
@@ -77,7 +71,6 @@ CREATE TABLE "tags" (
     CONSTRAINT "tags_pkey" PRIMARY KEY ("id")
 );
 
--- CreateTable
 CREATE TABLE "recipe_tags" (
     "recipeId" TEXT NOT NULL,
     "tagId" TEXT NOT NULL,
@@ -85,7 +78,6 @@ CREATE TABLE "recipe_tags" (
     CONSTRAINT "recipe_tags_pkey" PRIMARY KEY ("recipeId","tagId")
 );
 
--- CreateTable
 CREATE TABLE "favorites" (
     "userId" TEXT NOT NULL,
     "recipeId" TEXT NOT NULL,
@@ -94,29 +86,20 @@ CREATE TABLE "favorites" (
     CONSTRAINT "favorites_pkey" PRIMARY KEY ("userId","recipeId")
 );
 
--- CreateIndex
 CREATE UNIQUE INDEX "users_email_key" ON "users"("email");
 
--- CreateIndex
 CREATE UNIQUE INDEX "tags_nameFr_key" ON "tags"("nameFr");
 
--- AddForeignKey
 ALTER TABLE "recipes" ADD CONSTRAINT "recipes_authorId_fkey" FOREIGN KEY ("authorId") REFERENCES "users"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
--- AddForeignKey
 ALTER TABLE "ingredients" ADD CONSTRAINT "ingredients_recipeId_fkey" FOREIGN KEY ("recipeId") REFERENCES "recipes"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
--- AddForeignKey
 ALTER TABLE "recipe_steps" ADD CONSTRAINT "recipe_steps_recipeId_fkey" FOREIGN KEY ("recipeId") REFERENCES "recipes"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
--- AddForeignKey
 ALTER TABLE "recipe_tags" ADD CONSTRAINT "recipe_tags_recipeId_fkey" FOREIGN KEY ("recipeId") REFERENCES "recipes"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
--- AddForeignKey
 ALTER TABLE "recipe_tags" ADD CONSTRAINT "recipe_tags_tagId_fkey" FOREIGN KEY ("tagId") REFERENCES "tags"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
--- AddForeignKey
 ALTER TABLE "favorites" ADD CONSTRAINT "favorites_userId_fkey" FOREIGN KEY ("userId") REFERENCES "users"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
--- AddForeignKey
 ALTER TABLE "favorites" ADD CONSTRAINT "favorites_recipeId_fkey" FOREIGN KEY ("recipeId") REFERENCES "recipes"("id") ON DELETE CASCADE ON UPDATE CASCADE;

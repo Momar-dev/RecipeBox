@@ -133,7 +133,6 @@ export function validateRecipeCreate(body: any): ValidationResult<{
     return { isValid: false, errors: ['Corps de la requête invalide ou manquant.'] };
   }
 
-  // Titre
   const titleFr = (body.titleFr || body.title || '').trim();
   if (!titleFr) {
     errors.push('Le titre de la recette (FR) est requis.');
@@ -143,7 +142,6 @@ export function validateRecipeCreate(body: any): ValidationResult<{
 
   const titleEn = body.titleEn && typeof body.titleEn === 'string' ? body.titleEn.trim() : undefined;
 
-  // Description
   const descriptionFr = (body.descriptionFr || body.description || '').trim();
   if (!descriptionFr) {
     errors.push('La description de la recette (FR) est requise.');
@@ -152,43 +150,36 @@ export function validateRecipeCreate(body: any): ValidationResult<{
   const descriptionEn =
     body.descriptionEn && typeof body.descriptionEn === 'string' ? body.descriptionEn.trim() : undefined;
 
-  // Catégorie
   const category = parseCategory(body.category);
   if (!category) {
     errors.push('Catégorie invalide. Choix valides: starter, main, dessert, breakfast, vegetarian, baking (ou entrée, plat, dessert, etc.).');
   }
 
-  // Difficulté
   const difficulty = parseDifficulty(body.difficulty);
   if (!difficulty) {
     errors.push('Difficulté invalide. Choix valides: easy, medium, hard (ou facile, moyen, difficile).');
   }
 
-  // Temps de préparation
   const prepTime = Number(body.prepTime);
   if (isNaN(prepTime) || prepTime < 0) {
     errors.push('Le temps de préparation doit être un nombre positif ou nul.');
   }
 
-  // Temps de cuisson
   const cookTime = Number(body.cookTime);
   if (isNaN(cookTime) || cookTime < 0) {
     errors.push('Le temps de cuisson doit être un nombre positif ou nul.');
   }
 
-  // Portions
   const servings = Number(body.servings);
   if (isNaN(servings) || servings <= 0) {
     errors.push('Le nombre de portions doit être supérieur à zéro.');
   }
 
-  // Image URL
   const imageUrl = (body.imageUrl || '').trim();
   if (!imageUrl) {
     errors.push("L'URL de l'image est requise.");
   }
 
-  // Ingrédients
   const rawIngredients = Array.isArray(body.ingredients) ? body.ingredients : [];
   if (rawIngredients.length === 0) {
     errors.push('Au moins un ingrédient est requis.');
@@ -225,7 +216,6 @@ export function validateRecipeCreate(body: any): ValidationResult<{
     });
   });
 
-  // Étapes
   const rawSteps = Array.isArray(body.steps) ? body.steps : [];
   if (rawSteps.length === 0) {
     errors.push('Au moins une étape de préparation est requise.');
@@ -254,7 +244,6 @@ export function validateRecipeCreate(body: any): ValidationResult<{
     });
   });
 
-  // Tags
   const rawTags = Array.isArray(body.tags) ? body.tags : [];
   const tags = rawTags
     .filter((t: any) => typeof t === 'string' && t.trim().length > 0)

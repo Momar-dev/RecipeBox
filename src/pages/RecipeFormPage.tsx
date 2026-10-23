@@ -38,7 +38,6 @@ export const RecipeFormPage: React.FC<RecipeFormPageProps> = ({
   const { t, getCategoryLabel } = useLanguage();
   const isEditing = Boolean(initialRecipe);
 
-  // Form State
   const [title, setTitle] = useState(initialRecipe?.title || '');
   const [titleEn, setTitleEn] = useState(initialRecipe?.titleEn || '');
   const [description, setDescription] = useState(initialRecipe?.description || '');
@@ -58,7 +57,6 @@ export const RecipeFormPage: React.FC<RecipeFormPageProps> = ({
   const [isUploadingImage, setIsUploadingImage] = useState(false);
   const [uploadNotice, setUploadNotice] = useState<{ message: string; type: 'info' | 'warning' | 'success' } | null>(null);
 
-  // Ingredients state
   const [ingredients, setIngredients] = useState<Ingredient[]>(() => {
     if (initialRecipe && initialRecipe.ingredients.length > 0) {
       return initialRecipe.ingredients;
@@ -69,7 +67,6 @@ export const RecipeFormPage: React.FC<RecipeFormPageProps> = ({
     ];
   });
 
-  // Steps state
   const [steps, setSteps] = useState<RecipeStep[]>(() => {
     if (initialRecipe && initialRecipe.steps.length > 0) {
       return initialRecipe.steps;
@@ -80,33 +77,28 @@ export const RecipeFormPage: React.FC<RecipeFormPageProps> = ({
     ];
   });
 
-  // Validation errors
   const [errors, setErrors] = useState<string[]>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [imageInputMode, setImageInputMode] = useState<'url' | 'upload'>('url');
   const [localPreviewUrl, setLocalPreviewUrl] = useState<string | null>(null);
 
-  // Handle file upload with local preview and Cloudinary API sync
   const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
     setUploadNotice(null);
 
-    // Vérification de taille (5 Mo)
     if (file.size > 5 * 1024 * 1024) {
       setUploadNotice({ message: t.uploadFileTooLarge, type: 'warning' });
       return;
     }
 
-    // Vérification de type MIME déclaré
     const validMimes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
     if (!validMimes.includes(file.type.toLowerCase())) {
       setUploadNotice({ message: t.uploadFileBadFormat, type: 'warning' });
       return;
     }
 
-    // Aperçu local visuel immédiat (pour affichage utilisateur)
     const reader = new FileReader();
     reader.onloadend = () => {
       if (typeof reader.result === 'string') {
@@ -115,12 +107,11 @@ export const RecipeFormPage: React.FC<RecipeFormPageProps> = ({
     };
     reader.readAsDataURL(file);
 
-    // Téléversement vers Cloudinary si l'utilisateur est authentifié
     if (isAuthenticated && token) {
       try {
         setIsUploadingImage(true);
         const res = await recipeService.uploadRecipeImage(file, token);
-        // Assigner strictement l'URL sécurisée Cloudinary
+
         setImageUrl(res.secure_url);
         setUploadNotice({ message: t.uploadSuccess, type: 'success' });
       } catch (err: any) {
@@ -143,7 +134,6 @@ export const RecipeFormPage: React.FC<RecipeFormPageProps> = ({
     }
   };
 
-  // Ingredient Helpers
   const handleAddIngredient = () => {
     setIngredients([
       ...ingredients,
@@ -162,7 +152,6 @@ export const RecipeFormPage: React.FC<RecipeFormPageProps> = ({
     );
   };
 
-  // Step Helpers
   const handleAddStep = () => {
     setSteps([
       ...steps,
@@ -206,7 +195,6 @@ export const RecipeFormPage: React.FC<RecipeFormPageProps> = ({
     );
   };
 
-  // Validation function
   const validateForm = (): boolean => {
     const errs: string[] = [];
 
@@ -293,8 +281,7 @@ export const RecipeFormPage: React.FC<RecipeFormPageProps> = ({
 
   return (
     <div className="max-w-4xl mx-auto space-y-8 pb-20">
-      
-      {/* Top Header */}
+
       <div>
         <button
           type="button"
@@ -313,7 +300,6 @@ export const RecipeFormPage: React.FC<RecipeFormPageProps> = ({
         </p>
       </div>
 
-      {/* Culinary Guidance Banner */}
       <div className="p-4 rounded-2xl bg-amber-50/80 border border-amber-200/70 text-amber-900 text-xs sm:text-sm flex items-start gap-3 shadow-2xs">
         <ChefHat className="w-5 h-5 text-amber-600 shrink-0 mt-0.5" />
         <div className="leading-relaxed font-medium">
@@ -321,7 +307,6 @@ export const RecipeFormPage: React.FC<RecipeFormPageProps> = ({
         </div>
       </div>
 
-      {/* Error Summary Banner */}
       {errors.length > 0 && (
         <div className="p-5 rounded-2xl bg-rose-50 border border-rose-200 text-rose-900 text-xs sm:text-sm animate-in fade-in duration-150">
           <p className="font-bold flex items-center gap-2 mb-2">
@@ -336,17 +321,15 @@ export const RecipeFormPage: React.FC<RecipeFormPageProps> = ({
         </div>
       )}
 
-      {/* Main Form */}
       <form onSubmit={handleSubmit} className="space-y-8">
-        
-        {/* Section 1: General Info */}
+
         <div className="bg-white p-6 sm:p-8 rounded-3xl border border-stone-200/90 shadow-sm space-y-6">
           <h2 className="font-serif text-xl font-bold text-stone-900 border-b border-stone-100 pb-3">
             {t.formSectionGeneral}
           </h2>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-            {/* Title FR */}
+
             <div>
               <label className="block text-xs font-bold text-stone-700 uppercase tracking-wider mb-1.5">
                 {t.fieldTitleFr} <span className="text-rose-500">*</span>
@@ -361,7 +344,6 @@ export const RecipeFormPage: React.FC<RecipeFormPageProps> = ({
               />
             </div>
 
-            {/* Title EN */}
             <div>
               <label className="block text-xs font-bold text-stone-700 uppercase tracking-wider mb-1.5">
                 {t.fieldTitleEn}
@@ -377,7 +359,7 @@ export const RecipeFormPage: React.FC<RecipeFormPageProps> = ({
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-            {/* Description FR */}
+
             <div>
               <label className="block text-xs font-bold text-stone-700 uppercase tracking-wider mb-1.5">
                 {t.fieldDescFr} <span className="text-rose-500">*</span>
@@ -392,7 +374,6 @@ export const RecipeFormPage: React.FC<RecipeFormPageProps> = ({
               />
             </div>
 
-            {/* Description EN */}
             <div>
               <label className="block text-xs font-bold text-stone-700 uppercase tracking-wider mb-1.5">
                 {t.fieldDescEn}
@@ -408,7 +389,7 @@ export const RecipeFormPage: React.FC<RecipeFormPageProps> = ({
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-            {/* Category */}
+
             <div>
               <label className="block text-xs font-bold text-stone-700 uppercase tracking-wider mb-1.5">
                 {t.fieldCategory} <span className="text-rose-500">*</span>
@@ -426,7 +407,6 @@ export const RecipeFormPage: React.FC<RecipeFormPageProps> = ({
               </select>
             </div>
 
-            {/* Difficulty */}
             <div>
               <label className="block text-xs font-bold text-stone-700 uppercase tracking-wider mb-1.5">
                 {t.fieldDifficulty} <span className="text-rose-500">*</span>
@@ -442,7 +422,6 @@ export const RecipeFormPage: React.FC<RecipeFormPageProps> = ({
               </select>
             </div>
 
-            {/* Servings */}
             <div>
               <label className="block text-xs font-bold text-stone-700 uppercase tracking-wider mb-1.5">
                 {t.fieldServings} <span className="text-rose-500">*</span>
@@ -460,7 +439,7 @@ export const RecipeFormPage: React.FC<RecipeFormPageProps> = ({
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-            {/* Prep Time */}
+
             <div>
               <label className="block text-xs font-bold text-stone-700 uppercase tracking-wider mb-1.5">
                 {t.fieldPrepTime} <span className="text-rose-500">*</span>
@@ -475,7 +454,6 @@ export const RecipeFormPage: React.FC<RecipeFormPageProps> = ({
               />
             </div>
 
-            {/* Cook Time */}
             <div>
               <label className="block text-xs font-bold text-stone-700 uppercase tracking-wider mb-1.5">
                 {t.fieldCookTime} <span className="text-rose-500">*</span>
@@ -491,7 +469,6 @@ export const RecipeFormPage: React.FC<RecipeFormPageProps> = ({
             </div>
           </div>
 
-          {/* Tags */}
           <div>
             <label className="block text-xs font-bold text-stone-700 uppercase tracking-wider mb-1.5">
               {t.fieldTags}
@@ -505,7 +482,6 @@ export const RecipeFormPage: React.FC<RecipeFormPageProps> = ({
             />
           </div>
 
-          {/* Recipe Visibility (Public / Private) */}
           <div className="pt-2 border-t border-stone-100">
             <label className="block text-xs font-bold text-stone-700 uppercase tracking-wider mb-2">
               {t.recipeVisibility}
@@ -548,7 +524,6 @@ export const RecipeFormPage: React.FC<RecipeFormPageProps> = ({
           </div>
         </div>
 
-        {/* Section 2: Culinary Photography */}
         <div className="bg-white p-6 sm:p-8 rounded-3xl border border-stone-200/90 shadow-sm space-y-6">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-stone-100 pb-3">
             <h2 className="font-serif text-xl font-bold text-stone-900">
@@ -588,7 +563,7 @@ export const RecipeFormPage: React.FC<RecipeFormPageProps> = ({
                 placeholder="https://images.unsplash.com/photo-..."
                 className="w-full px-4 py-2.5 rounded-xl border border-stone-200 focus:outline-hidden focus:border-amber-500 text-sm"
               />
-              {/* Presets */}
+
               <div className="flex flex-wrap items-center gap-2 pt-1">
                 <span className="text-xs text-stone-500 font-medium">Suggestions :</span>
                 {PRESET_CULINARY_IMAGES.map((preset, idx) => (
@@ -629,7 +604,6 @@ export const RecipeFormPage: React.FC<RecipeFormPageProps> = ({
             </div>
           )}
 
-          {/* Upload notice message */}
           {uploadNotice && (
             <div className={`p-3.5 rounded-2xl text-xs font-semibold flex items-center gap-2 ${
               uploadNotice.type === 'success'
@@ -647,7 +621,6 @@ export const RecipeFormPage: React.FC<RecipeFormPageProps> = ({
             </div>
           )}
 
-          {/* Image Preview */}
           <div>
             <label className="block text-xs font-bold text-stone-700 uppercase tracking-wider mb-2">
               {t.imagePreview}
@@ -686,7 +659,6 @@ export const RecipeFormPage: React.FC<RecipeFormPageProps> = ({
           </div>
         </div>
 
-        {/* Section 3: Ingredients */}
         <div className="bg-white p-6 sm:p-8 rounded-3xl border border-stone-200/90 shadow-sm space-y-6">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-stone-100 pb-3">
             <div>
@@ -761,7 +733,6 @@ export const RecipeFormPage: React.FC<RecipeFormPageProps> = ({
           </div>
         </div>
 
-        {/* Section 4: Preparation Steps */}
         <div className="bg-white p-6 sm:p-8 rounded-3xl border border-stone-200/90 shadow-sm space-y-6">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-stone-100 pb-3">
             <div>
@@ -800,7 +771,7 @@ export const RecipeFormPage: React.FC<RecipeFormPageProps> = ({
                   </div>
 
                   <div className="flex items-center gap-1">
-                    {/* Reorder Buttons */}
+
                     <button
                       type="button"
                       disabled={idx === 0}
@@ -859,7 +830,6 @@ export const RecipeFormPage: React.FC<RecipeFormPageProps> = ({
           </div>
         </div>
 
-        {/* Section 5: Chef's Secret Tip */}
         <div className="bg-white p-6 sm:p-8 rounded-3xl border border-stone-200/90 shadow-sm space-y-4">
           <h2 className="font-serif text-xl font-bold text-stone-900 border-b border-stone-100 pb-3 flex items-center gap-2">
             <ChefHat className="w-5 h-5 text-amber-600" />
@@ -895,7 +865,6 @@ export const RecipeFormPage: React.FC<RecipeFormPageProps> = ({
           </div>
         </div>
 
-        {/* Action Buttons */}
         <div className="flex items-center justify-end gap-4 pt-4 border-t border-stone-200">
           <button
             type="button"

@@ -14,7 +14,6 @@ const server = app.listen(PORT, () => {
   `);
 });
 
-// Arrêt propre (SIGTERM / SIGINT)
 const shutdown = (signal: string) => {
   console.log(`\n[${signal}] Arrêt du serveur en cours...`);
   server.close(() => {

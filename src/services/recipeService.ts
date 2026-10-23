@@ -10,14 +10,8 @@ export interface UploadImageResponse {
   bytes?: number;
 }
 
-/**
- * Service de données des recettes connecté à l'API REST Express & PostgreSQL Neon.
- */
 class RecipeService {
-  /**
-   * Récupère les recettes depuis l'API Express (/api/recipes).
-   * Si un jeton est fourni, inclut également les recettes privées de l'utilisateur connecté.
-   */
+
   public async getRecipes(token?: string | null): Promise<Recipe[]> {
     const headers: Record<string, string> = {
       'Content-Type': 'application/json',
@@ -38,9 +32,6 @@ class RecipeService {
     return json.data as Recipe[];
   }
 
-  /**
-   * Récupère une recette par son ID depuis l'API.
-   */
   public async getRecipeById(id: string, token?: string | null): Promise<Recipe | null> {
     const headers: Record<string, string> = {
       'Content-Type': 'application/json',
@@ -65,9 +56,6 @@ class RecipeService {
     return json.data as Recipe;
   }
 
-  /**
-   * Crée une nouvelle recette via l'API (nécessite un token JWT).
-   */
   public async createRecipe(
     data: Omit<Recipe, 'id' | 'createdAt'>,
     token?: string | null
@@ -129,9 +117,6 @@ class RecipeService {
     return json.data as Recipe;
   }
 
-  /**
-   * Met à jour une recette via l'API (nécessite d'être l'auteur).
-   */
   public async updateRecipe(
     id: string,
     data: Partial<Recipe>,
@@ -201,9 +186,6 @@ class RecipeService {
     return json.data as Recipe;
   }
 
-  /**
-   * Supprime une recette via l'API (nécessite d'être l'auteur).
-   */
   public async deleteRecipe(id: string, token?: string | null): Promise<boolean> {
     if (!token) {
       throw new Error('Authentification requise pour supprimer une recette.');
@@ -225,9 +207,6 @@ class RecipeService {
     return true;
   }
 
-  /**
-   * Téléverse une image de recette vers Cloudinary via l'endpoint sécurisé.
-   */
   public async uploadRecipeImage(file: File, token: string): Promise<UploadImageResponse> {
     const formData = new FormData();
     formData.append('image', file);
@@ -254,19 +233,10 @@ class RecipeService {
     return json.data as UploadImageResponse;
   }
 
-  /**
-   * Récupère la liste depuis l'API en ignorant le cache.
-   */
   public async resetToDefaultData(token?: string | null): Promise<Recipe[]> {
     return this.getRecipes(token);
   }
 
-  // ─── Gestion des favoris via API REST (persistance PostgreSQL) ──────────────
-
-  /**
-   * Récupère les IDs des favoris depuis l'API (utilisateur connecté).
-   * Repli sur le localStorage si aucun token n'est fourni ou en cas d'erreur réseau.
-   */
   public async fetchFavoriteIds(token?: string | null): Promise<string[]> {
     if (!token) {
       return this.getLocalFavorites();
@@ -288,9 +258,6 @@ class RecipeService {
     }
   }
 
-  /**
-   * Ajoute un favori via l'API (utilisateur connecté) ou en localStorage (anonyme).
-   */
   public async addFavorite(recipeId: string, token?: string | null): Promise<void> {
     if (!token) {
       const favs = this.getLocalFavorites();
@@ -311,9 +278,6 @@ class RecipeService {
     }
   }
 
-  /**
-   * Retire un favori via l'API (utilisateur connecté) ou du localStorage (anonyme).
-   */
   public async removeFavorite(recipeId: string, token?: string | null): Promise<void> {
     if (!token) {
       const favs = this.getLocalFavorites().filter((id) => id !== recipeId);
@@ -326,16 +290,11 @@ class RecipeService {
       headers: { Authorization: `Bearer ${token}` },
     });
 
-    // 404 = favori déjà retiré, on ignore
     if (!res.ok && res.status !== 404) {
       const json = await res.json().catch(() => null);
       throw new Error(json?.message || 'Erreur lors du retrait des favoris.');
     }
   }
-
-  // ─── Helpers localStorage (utilisateurs anonymes uniquement) ────────────────
-  // Note : localStorage est conservé comme repli pour les visiteurs non connectés.
-  // Les utilisateurs authentifiés utilisent la base PostgreSQL via l'API.
 
   private getLocalFavorites(): string[] {
     try {
@@ -354,10 +313,6 @@ class RecipeService {
     }
   }
 
-  /**
-   * @deprecated Utiliser fetchFavoriteIds() à la place (supporte l'API).
-   * Conservé pour compatibilité avec les tests unitaires existants.
-   */
   public getFavorites(): string[] {
     return this.getLocalFavorites();
   }
@@ -365,10 +320,6 @@ class RecipeService {
 
 export const recipeService = new RecipeService();
 
-/**
- * Fonction pure de filtrage et de tri pour le catalogue culinaire.
- * Préservée intégralement pour assurer les performances et la compatibilité des tests unitaires.
- */
 export function filterAndSortRecipes(
   recipes: Recipe[],
   filters: RecipeFilterState,
@@ -376,13 +327,13 @@ export function filterAndSortRecipes(
   language: Language
 ): Recipe[] {
   return recipes.filter((recipe) => {
-    // Recherche textuelle multi-champs
+
     if (filters.searchQuery.trim()) {
       const query = filters.searchQuery.toLowerCase().trim();
       const titleMatch = 
         recipe.title.toLowerCase().includes(query) ||
         (recipe.titleEn && recipe.titleEn.toLowerCase().includes(query));
-      
+
       const descMatch =
         recipe.description.toLowerCase().includes(query) ||
         (recipe.descriptionEn && recipe.descriptionEn.toLowerCase().includes(query));
@@ -401,17 +352,14 @@ export function filterAndSortRecipes(
       }
     }
 
-    // Filtrage par catégorie
     if (filters.category !== 'all' && recipe.category !== filters.category) {
       return false;
     }
 
-    // Filtrage par difficulté
     if (filters.difficulty !== 'all' && recipe.difficulty !== filters.difficulty) {
       return false;
     }
 
-    // Filtrage par temps total maximum
     if (filters.maxTotalTime !== null) {
       const totalTime = recipe.prepTime + recipe.cookTime;
       if (filters.maxTotalTime === 30 && totalTime > 30) return false;
@@ -419,7 +367,6 @@ export function filterAndSortRecipes(
       if (filters.maxTotalTime === 61 && totalTime <= 60) return false;
     }
 
-    // Filtrage favoris uniquement
     if (filters.onlyFavorites && !favorites.includes(recipe.id)) {
       return false;
     }
@@ -448,10 +395,6 @@ export function filterAndSortRecipes(
   });
 }
 
-/**
- * Fonction pure pour recalculer dynamiquement la quantité d'un ingrédient selon les portions.
- * Préservée pour les tests unitaires.
- */
 export function calculateScaledQuantity(
   baseQuantity: number | null,
   baseServings: number,

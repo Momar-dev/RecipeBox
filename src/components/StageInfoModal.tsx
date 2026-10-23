@@ -21,7 +21,7 @@ export const StageInfoModal: React.FC<StageInfoModalProps> = ({ isOpen, onClose 
         role="dialog"
         aria-modal="true"
       >
-        {/* Header */}
+
         <div className="flex items-start justify-between gap-4 pb-5 border-b border-stone-100 shrink-0">
           <div className="flex items-center gap-3.5">
             <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-amber-500 to-amber-700 text-white flex items-center justify-center shadow-md shadow-amber-600/25">
@@ -46,7 +46,6 @@ export const StageInfoModal: React.FC<StageInfoModalProps> = ({ isOpen, onClose 
           </button>
         </div>
 
-        {/* Content Body */}
         <div className="py-6 space-y-6 overflow-y-auto modal-scrollbar flex-1 pr-1">
           <p className="text-sm sm:text-base text-stone-600 leading-relaxed">
             {t.aboutModalIntro}
@@ -120,7 +119,6 @@ export const StageInfoModal: React.FC<StageInfoModalProps> = ({ isOpen, onClose 
           </div>
         </div>
 
-        {/* Footer */}
         <div className="flex justify-end pt-4 border-t border-stone-100 shrink-0">
           <button
             type="button"

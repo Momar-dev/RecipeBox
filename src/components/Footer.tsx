@@ -20,8 +20,7 @@ export const Footer: React.FC<FooterProps> = ({
     <footer className="bg-stone-900 text-stone-300 mt-20 border-t border-stone-800">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 lg:gap-12">
-          
-          {/* Brand Col */}
+
           <div className="md:col-span-2 space-y-4">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-amber-500 to-amber-700 flex items-center justify-center text-white shadow-md shadow-amber-600/20">
@@ -40,7 +39,6 @@ export const Footer: React.FC<FooterProps> = ({
             </div>
           </div>
 
-          {/* Quick Links with consistent Lucide icons */}
           <div>
             <h4 className="text-xs font-bold uppercase tracking-wider text-stone-400 mb-4">
               {t.footerQuickLinks}
@@ -85,7 +83,6 @@ export const Footer: React.FC<FooterProps> = ({
             </ul>
           </div>
 
-          {/* Notebook Management */}
           <div>
             <h4 className="text-xs font-bold uppercase tracking-wider text-stone-400 mb-4">
               Mon Carnet

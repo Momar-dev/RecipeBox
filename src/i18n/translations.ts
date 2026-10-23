@@ -1,6 +1,6 @@
 export const translations = {
   fr: {
-    // Brand & App
+
     appName: 'Recipe Box',
     appSubtitle: 'Atelier & Carnet Culinaire',
     stageBadge: 'Sélection Culinaire Gourmet',
@@ -10,7 +10,6 @@ export const translations = {
     aboutModalSubtitle: 'Votre carnet culinaire interactif, élégant et précis',
     aboutModalIntro: 'Recipe Box réunit le savoir-faire culinaire et le confort numérique pour sublimer chaque instant passé en cuisine.',
 
-    // Navigation
     navDiscover: 'Découvrir',
     navFavorites: 'Mes Favoris',
     navCreate: 'Nouvelle Recette',
@@ -19,13 +18,11 @@ export const translations = {
     navMyAccount: 'Mon Compte',
     searchPlaceholder: 'Rechercher une recette ou un ingrédient...',
 
-    // Hero
     heroTitle: 'Cuisinez avec passion, précision & élégance',
     heroSubtitle: 'Explorez nos créations culinaires signatures, ajustez vos portions en temps réel et immortalisez vos propres recettes d’exception.',
     heroSearchBtn: 'Rechercher',
     quickFilters: 'Inspirations rapides :',
 
-    // Categories
     catAll: 'Toutes',
     catStarter: 'Entrées',
     catMain: 'Plats principaux',
@@ -34,13 +31,11 @@ export const translations = {
     catVegetarian: 'Végétarien',
     catBaking: 'Boulangerie & Pâtisserie',
 
-    // Difficulties
     diffEasy: 'Facile',
     diffMedium: 'Moyen',
     diffHard: 'Avancé',
     allDifficulties: 'Toutes difficultés',
 
-    // Time & Metrics
     prepTime: 'Préparation',
     cookTime: 'Cuisson',
     totalTime: 'Total',
@@ -50,7 +45,6 @@ export const translations = {
     steps: 'Étapes',
     tags: 'Mots-clés',
 
-    // Sorting & Filters
     sortBy: 'Trier par',
     sortNewest: 'Plus récentes',
     sortPrepTimeAsc: 'Préparation la plus rapide',
@@ -70,18 +64,15 @@ export const translations = {
     noResultsTitle: 'Aucune recette trouvée',
     noResultsDesc: 'Essayez de modifier vos termes de recherche ou de réinitialiser vos critères de filtrage.',
 
-    // Sections
     featuredSectionTitle: 'Recettes à la une',
     featuredSectionSubtitle: 'Sélectionnées pour leur équilibre, leurs saveurs raffinées et leur succès garanti.',
     allRecipesTitle: 'Toutes nos recettes',
     allRecipesSubtitle: 'Feuilletez le carnet complet et personnalisez votre menu.',
 
-    // Recipe Card
     viewRecipe: 'Voir la recette',
     addToFav: 'Ajouter aux favoris',
     removeFromFav: 'Retirer des favoris',
 
-    // Recipe Detail
     backToCatalog: 'Retour au carnet',
     scaleServings: 'Ajuster les portions',
     resetServings: 'Rétablir',
@@ -101,7 +92,6 @@ export const translations = {
     filtersApplied: 'Filtres appliqués',
     nutritionNotice: 'Astuce du Chef : cochez chaque ingrédient et étape au fur et à mesure pour suivre sereinement votre cadence en cuisine !',
 
-    // Recipe Form
     createTitle: 'Ajouter une nouvelle recette',
     editTitle: 'Modifier la recette',
     formSubtitle: 'Renseignez les détails, ingrédients et étapes de votre création culinaire.',
@@ -130,7 +120,6 @@ export const translations = {
     fieldTags: 'Mots-clés (séparés par des virgules)',
     fieldTagsPlaceholder: 'ex: Tradition, Festif, Réconfortant',
 
-    // Form Ingredients & Steps
     ingredientsSectionTitle: 'Liste des ingrédients',
     ingredientName: 'Nom de l’ingrédient',
     ingredientQty: 'Quantité (ex: 250)',
@@ -151,14 +140,12 @@ export const translations = {
     errIngredientsMin: 'Veuillez ajouter au moins un ingrédient avec son intitulé.',
     errStepsMin: 'Veuillez ajouter au moins une étape de préparation avec des instructions.',
 
-    // Favorites Page
     favTitle: 'Mes Recettes Favorites',
     favSubtitle: 'Vos recettes coups de cœur réunies dans votre carnet personnel.',
     favEmptyTitle: 'Aucun favori pour le moment',
     favEmptyDesc: 'Parcourez le carnet et cliquez sur le cœur d’une recette pour l’ajouter à votre collection personnelle.',
     favExploreBtn: 'Explorer les recettes',
 
-    // Modals & Confirmations
     confirmDeleteTitle: 'Supprimer cette recette ?',
     confirmDeleteMessage: 'Êtes-vous sûr de vouloir supprimer définitivement cette recette de votre carnet ? Cette action ne peut pas être annulée.',
     confirmDeleteBtn: 'Oui, supprimer',
@@ -167,7 +154,6 @@ export const translations = {
     confirmResetDataBtn: 'Rétablir les recettes',
     cancelModalBtn: 'Conserver',
 
-    // Toasts
     toastAddedFav: 'Recette ajoutée à vos favoris !',
     toastRemovedFav: 'Recette retirée de vos favoris.',
     toastRecipeCreated: 'Nouvelle recette enregistrée avec succès dans votre carnet !',
@@ -176,7 +162,6 @@ export const translations = {
     toastDataReset: 'Recettes de référence restaurées avec succès.',
     toastLinkCopied: 'Lien de la recette copié dans le presse-papiers !',
 
-    // Auth & Uploads
     authModalTitle: 'Espace Chef Recipe Box',
     authLoginTab: 'Connexion',
     authRegisterTab: 'Créer un compte',
@@ -208,7 +193,6 @@ export const translations = {
     uploadFileTooLarge: 'L’image dépasse la taille maximale autorisée de 5 Mo.',
     uploadFileBadFormat: 'Format non supporté. Formats acceptés : JPEG, PNG, WebP.',
 
-    // Footer
     footerDesc: 'L’écrin culinaire moderne pensé pour les passionnés de gastronomie, de pâtisserie et de saveurs authentiques.',
     footerTechStack: 'Inspirations de saison & secrets de chefs',
     footerResetDemo: 'Rétablir les recettes initiales',
@@ -217,7 +201,7 @@ export const translations = {
   },
 
   en: {
-    // Brand & App
+
     appName: 'Recipe Box',
     appSubtitle: 'Gourmet Culinary Notebook',
     stageBadge: 'Gourmet Culinary Selection',
@@ -227,7 +211,6 @@ export const translations = {
     aboutModalSubtitle: 'Your smart, precise, and elegant culinary companion',
     aboutModalIntro: 'Recipe Box brings culinary inspiration and modern digital ease together to elevate every moment spent in your kitchen.',
 
-    // Navigation
     navDiscover: 'Discover',
     navFavorites: 'My Favorites',
     navCreate: 'New Recipe',
@@ -236,13 +219,11 @@ export const translations = {
     navMyAccount: 'My Account',
     searchPlaceholder: 'Search a recipe or ingredient...',
 
-    // Hero
     heroTitle: 'Cook with passion, precision & elegance',
     heroSubtitle: 'Explore handcrafted signature recipes, dynamically scale servings in real time, and preserve your own culinary masterpieces.',
     heroSearchBtn: 'Search',
     quickFilters: 'Quick inspirations:',
 
-    // Categories
     catAll: 'All',
     catStarter: 'Starters',
     catMain: 'Main Courses',
@@ -251,13 +232,11 @@ export const translations = {
     catVegetarian: 'Vegetarian',
     catBaking: 'Baking & Pastry',
 
-    // Difficulties
     diffEasy: 'Easy',
     diffMedium: 'Medium',
     diffHard: 'Advanced',
     allDifficulties: 'All difficulties',
 
-    // Time & Metrics
     prepTime: 'Prep',
     cookTime: 'Cook',
     totalTime: 'Total',
@@ -267,7 +246,6 @@ export const translations = {
     steps: 'Steps',
     tags: 'Tags',
 
-    // Sorting & Filters
     sortBy: 'Sort by',
     sortNewest: 'Newest',
     sortPrepTimeAsc: 'Fastest Prep',
@@ -287,18 +265,15 @@ export const translations = {
     noResultsTitle: 'No recipes found',
     noResultsDesc: 'Try adjusting your search terms or clearing active category and time filters.',
 
-    // Sections
     featuredSectionTitle: 'Featured Recipes',
     featuredSectionSubtitle: 'Hand-picked for harmonious flavors, clear culinary techniques, and memorable dining.',
     allRecipesTitle: 'All Recipes',
     allRecipesSubtitle: 'Browse our complete culinary collection and plan your next meal.',
 
-    // Recipe Card
     viewRecipe: 'View recipe',
     addToFav: 'Add to favorites',
     removeFromFav: 'Remove from favorites',
 
-    // Recipe Detail
     backToCatalog: 'Back to recipes',
     scaleServings: 'Adjust servings',
     resetServings: 'Reset',
@@ -318,7 +293,6 @@ export const translations = {
     filtersApplied: 'Active filters',
     nutritionNotice: 'Chef’s Tip: Check each ingredient and step as you progress to cook smoothly and stay in rhythm!',
 
-    // Recipe Form
     createTitle: 'Create a New Recipe',
     editTitle: 'Edit Recipe',
     formSubtitle: 'Enter the details, ingredients, and step-by-step instructions for your culinary creation.',
@@ -347,7 +321,6 @@ export const translations = {
     fieldTags: 'Tags (separated by commas)',
     fieldTagsPlaceholder: 'e.g. Comfort food, Quick, Celebration',
 
-    // Form Ingredients & Steps
     ingredientsSectionTitle: 'Ingredients List',
     ingredientName: 'Ingredient name',
     ingredientQty: 'Quantity (e.g. 250)',
@@ -368,14 +341,12 @@ export const translations = {
     errIngredientsMin: 'Please add at least one valid ingredient with a name.',
     errStepsMin: 'Please add at least one preparation step with instructions.',
 
-    // Favorites Page
     favTitle: 'My Favorite Recipes',
     favSubtitle: 'Your personal bookmarked collection in your recipe journal.',
     favEmptyTitle: 'No favorites saved yet',
     favEmptyDesc: 'Browse the recipe catalog and click on the heart icon of any recipe to save it here.',
     favExploreBtn: 'Explore recipes',
 
-    // Modals & Confirmations
     confirmDeleteTitle: 'Delete this recipe?',
     confirmDeleteMessage: 'Are you sure you want to permanently delete this recipe from your notebook? This action cannot be undone.',
     confirmDeleteBtn: 'Yes, delete',
@@ -384,7 +355,6 @@ export const translations = {
     confirmResetDataBtn: 'Restore recipes',
     cancelModalBtn: 'Keep',
 
-    // Toasts
     toastAddedFav: 'Recipe added to your favorites!',
     toastRemovedFav: 'Recipe removed from your favorites.',
     toastRecipeCreated: 'New recipe successfully saved to your culinary notebook!',
@@ -393,7 +363,6 @@ export const translations = {
     toastDataReset: 'Reference recipes successfully restored.',
     toastLinkCopied: 'Recipe link copied to clipboard!',
 
-    // Auth & Uploads
     authModalTitle: 'Recipe Box Chef Space',
     authLoginTab: 'Sign In',
     authRegisterTab: 'Create Account',
@@ -425,7 +394,6 @@ export const translations = {
     uploadFileTooLarge: 'Image exceeds maximum allowed size of 5 MB.',
     uploadFileBadFormat: 'Unsupported format. Allowed: JPEG, PNG, WebP.',
 
-    // Footer
     footerDesc: 'The modern culinary companion designed for passionate home cooks, bakers, and flavor enthusiasts.',
     footerTechStack: 'Seasonal inspirations & chef secrets',
     footerResetDemo: 'Restore default recipes',

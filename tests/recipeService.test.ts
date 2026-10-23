@@ -6,16 +6,13 @@ import { RecipeFilterState } from '../src/types/index.ts';
 
 describe('Recipe Box - Pure Business Logic Unit Tests', () => {
   test('calculateScaledQuantity correctly calculates scaled ingredients', () => {
-    // 4 servings with 400g -> 2 servings should be 200g
+
     assert.strictEqual(calculateScaledQuantity(400, 4, 2), 200);
 
-    // 4 servings with 350g -> 6 servings should be 525g
     assert.strictEqual(calculateScaledQuantity(350, 4, 6), 525);
 
-    // null base quantity (like pinch or to taste) stays null
     assert.strictEqual(calculateScaledQuantity(null, 4, 6), null);
 
-    // handles 0 or negative gracefully
     assert.strictEqual(calculateScaledQuantity(100, 0, 4), null);
     assert.strictEqual(calculateScaledQuantity(100, 4, 0), null);
   });

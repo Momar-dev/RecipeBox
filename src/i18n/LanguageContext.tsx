@@ -27,7 +27,7 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     try {
       const saved = localStorage.getItem(LANGUAGE_STORAGE_KEY);
       if (saved === 'fr' || saved === 'en') return saved;
-      // Default to French as requested in French instructions, or browser language if available
+
       return navigator.language.startsWith('fr') ? 'fr' : 'fr';
     } catch {
       return 'fr';
@@ -39,7 +39,7 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     try {
       localStorage.setItem(LANGUAGE_STORAGE_KEY, lang);
     } catch {
-      // ignore in restricted env
+
     }
   };
 

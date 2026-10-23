@@ -10,8 +10,6 @@ dotenv.config();
 
 const app: Application = express();
 
-// ─── Middlewares globaux ───────────────────────────────────────────────────────
-
 const clientUrl = process.env.CLIENT_URL;
 const allowedOrigins = [
   'http://localhost:3000',
@@ -46,12 +44,6 @@ app.use(
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true }));
 
-// ─── Routes API ───────────────────────────────────────────────────────────────
-
-/**
- * GET /api/health
- * Endpoint de santé conservé
- */
 app.get('/api/health', (_req: Request, res: Response) => {
   res.status(200).json({
     status: 'ok',
@@ -62,31 +54,14 @@ app.get('/api/health', (_req: Request, res: Response) => {
   });
 });
 
-/**
- * /api/auth
- * Routes d'authentification (register, login, me)
- */
 app.use('/api/auth', authRouter);
 
-/**
- * /api/recipes
- * Routes REST des recettes
- */
 app.use('/api/recipes', recipesRouter);
 
-/**
- * /api/uploads
- * Routes de téléversement d'images (Cloudinary)
- */
 app.use('/api/uploads', uploadsRouter);
 
-/**
- * /api/favorites
- * Routes de gestion des favoris utilisateur (protégées par JWT)
- */
 app.use('/api/favorites', favoritesRouter);
 
-// ─── Route 404 (pour endpoints non définis) ───────────────────────────────────
 app.use((_req: Request, res: Response) => {
   res.status(404).json({
     status: 'error',
@@ -94,8 +69,6 @@ app.use((_req: Request, res: Response) => {
   });
 });
 
-// ─── Gestionnaire d'erreurs global sécurisé ───────────────────────────────────
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
   const isProd = process.env.NODE_ENV === 'production';
   console.error('[API Error]', err?.message || err);

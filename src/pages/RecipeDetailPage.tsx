@@ -98,8 +98,7 @@ export const RecipeDetailPage: React.FC<RecipeDetailPageProps> = ({
 
   return (
     <div className="max-w-5xl mx-auto space-y-8 pb-20 print-page">
-      
-      {/* Top Action Bar */}
+
       <div className="flex flex-wrap items-center justify-between gap-3 pt-2 no-print">
         <button
           onClick={onBack}
@@ -110,7 +109,7 @@ export const RecipeDetailPage: React.FC<RecipeDetailPageProps> = ({
         </button>
 
         <div className="flex items-center gap-2 flex-wrap">
-          {/* Share */}
+
           <button
             onClick={onShare}
             className="p-2.5 rounded-xl bg-white hover:bg-stone-100 border border-stone-200/90 text-stone-700 transition-all shadow-xs cursor-pointer active:scale-95"
@@ -120,7 +119,6 @@ export const RecipeDetailPage: React.FC<RecipeDetailPageProps> = ({
             <Share2 className="w-4 h-4" />
           </button>
 
-          {/* Print */}
           <button
             onClick={handlePrint}
             className="p-2.5 rounded-xl bg-white hover:bg-stone-100 border border-stone-200/90 text-stone-700 transition-all shadow-xs cursor-pointer active:scale-95"
@@ -130,7 +128,6 @@ export const RecipeDetailPage: React.FC<RecipeDetailPageProps> = ({
             <Printer className="w-4 h-4" />
           </button>
 
-          {/* Favorite */}
           <button
             onClick={(e) => onToggleFavorite(recipe.id, e)}
             className={`flex items-center gap-2 px-3.5 py-2.5 rounded-xl border text-sm font-semibold transition-all shadow-xs cursor-pointer active:scale-95 ${
@@ -145,7 +142,6 @@ export const RecipeDetailPage: React.FC<RecipeDetailPageProps> = ({
             </span>
           </button>
 
-          {/* Edit (seulement pour l'auteur de la recette) */}
           {isAuthor && (
             <button
               onClick={() => onEdit(recipe.id)}
@@ -156,7 +152,6 @@ export const RecipeDetailPage: React.FC<RecipeDetailPageProps> = ({
             </button>
           )}
 
-          {/* Delete (seulement pour l'auteur de la recette) */}
           {isAuthor && (
             <button
               onClick={() => onRequestDelete(recipe.id)}
@@ -170,7 +165,6 @@ export const RecipeDetailPage: React.FC<RecipeDetailPageProps> = ({
         </div>
       </div>
 
-      {/* Main Recipe Header Card */}
       <div className="bg-white rounded-3xl overflow-hidden border border-stone-200/90 shadow-xl">
         <div className="relative aspect-16/9 sm:aspect-21/9 max-h-[460px] overflow-hidden bg-stone-100">
           <img
@@ -183,7 +177,6 @@ export const RecipeDetailPage: React.FC<RecipeDetailPageProps> = ({
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-black/20" />
 
-          {/* Floating badge inside image */}
           <div className="absolute top-4 left-4 flex flex-wrap gap-2">
             <span className="px-3.5 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-white/95 text-stone-900 shadow-md backdrop-blur-md">
               {getCategoryLabel(recipe.category)}
@@ -201,7 +194,6 @@ export const RecipeDetailPage: React.FC<RecipeDetailPageProps> = ({
             )}
           </div>
 
-          {/* Title overlay in image */}
           <div className="absolute bottom-6 left-6 right-6 text-white">
             <h1 className="font-serif text-2xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-white drop-shadow-md mb-2">
               {title}
@@ -217,7 +209,6 @@ export const RecipeDetailPage: React.FC<RecipeDetailPageProps> = ({
           </div>
         </div>
 
-        {/* Recipe Metric Badges Strip */}
         <div className="p-5 sm:p-6 bg-stone-50/80 border-t border-stone-200 grid grid-cols-2 sm:grid-cols-4 gap-4">
           <div className="flex items-center gap-3">
             <div className="p-2.5 rounded-2xl bg-white border border-stone-200 text-amber-600 shadow-xs">
@@ -277,7 +268,6 @@ export const RecipeDetailPage: React.FC<RecipeDetailPageProps> = ({
         </div>
       </div>
 
-      {/* Culinary Inspiration Note */}
       <div className="p-4 rounded-2xl bg-amber-50/90 border border-amber-200/80 flex items-start gap-3 text-amber-900 text-xs sm:text-sm shadow-2xs">
         <Lightbulb className="w-5 h-5 text-amber-600 shrink-0 mt-0.5" />
         <div className="leading-relaxed">
@@ -285,10 +275,8 @@ export const RecipeDetailPage: React.FC<RecipeDetailPageProps> = ({
         </div>
       </div>
 
-      {/* Two Columns: Ingredients (left) & Preparation Steps (right) */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-        
-        {/* Left Column: Ingredients with Servings Scaler */}
+
         <div className="lg:col-span-5 bg-white p-6 sm:p-7 rounded-3xl border border-stone-200/90 shadow-sm space-y-6">
           <div className="flex flex-wrap items-center justify-between gap-3 pb-4 border-b border-stone-100">
             <div>
@@ -300,7 +288,6 @@ export const RecipeDetailPage: React.FC<RecipeDetailPageProps> = ({
               </p>
             </div>
 
-            {/* Interactive Servings Scaler */}
             <div className="flex items-center gap-1.5 bg-stone-100 p-1.5 rounded-2xl border border-stone-200 shadow-2xs">
               <button
                 type="button"
@@ -340,7 +327,6 @@ export const RecipeDetailPage: React.FC<RecipeDetailPageProps> = ({
             </div>
           </div>
 
-          {/* Progress bar */}
           <div className="w-full bg-stone-100 rounded-full h-2 overflow-hidden">
             <div
               className="bg-gradient-to-r from-amber-500 to-amber-600 h-full rounded-full transition-all duration-300"
@@ -348,7 +334,6 @@ export const RecipeDetailPage: React.FC<RecipeDetailPageProps> = ({
             />
           </div>
 
-          {/* Ingredients Checklist */}
           <ul className="space-y-2.5">
             {recipe.ingredients.map((ingredient) => {
               const isChecked = Boolean(checkedIngredients[ingredient.id]);
@@ -394,7 +379,6 @@ export const RecipeDetailPage: React.FC<RecipeDetailPageProps> = ({
           </div>
         </div>
 
-        {/* Right Column: Steps & Chef Tips */}
         <div className="lg:col-span-7 space-y-6">
           <div className="bg-white p-6 sm:p-7 rounded-3xl border border-stone-200/90 shadow-sm space-y-6">
             <div className="flex items-center justify-between pb-4 border-b border-stone-100">
@@ -422,7 +406,7 @@ export const RecipeDetailPage: React.FC<RecipeDetailPageProps> = ({
                     }`}
                   >
                     <div className="flex items-start gap-4">
-                      {/* Step Number or Check */}
+
                       <button
                         type="button"
                         onClick={() => handleToggleStep(step.id)}
@@ -444,7 +428,6 @@ export const RecipeDetailPage: React.FC<RecipeDetailPageProps> = ({
                           {instruction}
                         </p>
 
-                        {/* Step Tip if present */}
                         {tip && (
                           <div className="p-3.5 rounded-xl bg-amber-50/80 border border-amber-200/70 text-xs text-amber-900 flex items-start gap-2.5 shadow-2xs">
                             <ChefHat className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" />
@@ -459,7 +442,6 @@ export const RecipeDetailPage: React.FC<RecipeDetailPageProps> = ({
             </ol>
           </div>
 
-          {/* Chef's Global Note Card */}
           {chefNote && (
             <div className="p-6 rounded-3xl bg-linear-to-br from-amber-50 to-orange-50/60 border border-amber-200/80 shadow-xs">
               <div className="flex items-center gap-2.5 text-amber-900 font-bold text-sm mb-2">
@@ -472,7 +454,6 @@ export const RecipeDetailPage: React.FC<RecipeDetailPageProps> = ({
             </div>
           )}
 
-          {/* Tags */}
           {recipe.tags && recipe.tags.length > 0 && (
             <div className="flex flex-wrap items-center gap-2 pt-2">
               <span className="text-xs font-semibold text-stone-400">

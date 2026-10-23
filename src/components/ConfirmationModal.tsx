@@ -35,7 +35,7 @@ export const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
         aria-modal="true"
         aria-labelledby="modal-title"
       >
-        {/* Close Button Top Right */}
+
         <button
           onClick={onCancel}
           className="absolute top-4 right-4 p-2 rounded-full text-stone-400 hover:text-stone-700 hover:bg-stone-100 transition-colors cursor-pointer"
@@ -44,7 +44,6 @@ export const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
           <X className="w-4 h-4" />
         </button>
 
-        {/* Central SweetAlert-style Icon Circle */}
         <div className="mx-auto mb-5 flex items-center justify-center">
           <div className={`w-20 h-20 rounded-full flex items-center justify-center transition-transform animate-in zoom-in duration-300 ${
             isDestructive 
@@ -59,17 +58,14 @@ export const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
           </div>
         </div>
 
-        {/* Modal Title */}
         <h3 id="modal-title" className="text-xl sm:text-2xl font-bold text-stone-900 font-serif mb-2.5">
           {title}
         </h3>
 
-        {/* Modal Description / Message */}
         <p className="text-sm text-stone-500 mb-8 leading-relaxed max-w-xs mx-auto">
           {message}
         </p>
 
-        {/* Action Buttons */}
         <div className="flex flex-col-reverse sm:flex-row items-stretch sm:items-center justify-center gap-3">
           <button
             type="button"

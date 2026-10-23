@@ -43,13 +43,13 @@ export interface Recipe {
   description: string;
   descriptionEn?: string;
   category: Exclude<Category, 'all'>;
-  prepTime: number; // in minutes
-  cookTime: number; // in minutes
+  prepTime: number;
+  cookTime: number;
   servings: number;
   difficulty: Difficulty;
   imageUrl: string;
   isFeatured?: boolean;
-  isCustom?: boolean; // created or edited locally by the user
+  isCustom?: boolean;
   isPublic?: boolean;
   authorId?: string | null;
   author?: {
@@ -85,7 +85,7 @@ export interface RecipeFilterState {
   searchQuery: string;
   category: Category;
   difficulty: Difficulty | 'all';
-  maxTotalTime: number | null; // minutes or null for any
+  maxTotalTime: number | null;
   sortBy: SortOption;
   onlyFavorites: boolean;
 }

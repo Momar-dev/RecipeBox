@@ -68,7 +68,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
         aria-modal="true"
         aria-labelledby="auth-modal-title"
       >
-        {/* Top Decorative Header */}
+
         <div className="bg-gradient-to-r from-amber-600 via-amber-700 to-amber-800 px-6 py-6 text-white relative">
           <button
             onClick={onClose}
@@ -92,7 +92,6 @@ export const AuthModal: React.FC<AuthModalProps> = ({
             </div>
           </div>
 
-          {/* Mode Switcher Tabs */}
           <div className="flex rounded-xl bg-black/20 p-1 mt-5">
             <button
               type="button"
@@ -125,7 +124,6 @@ export const AuthModal: React.FC<AuthModalProps> = ({
           </div>
         </div>
 
-        {/* Form Body */}
         <form onSubmit={handleSubmit} className="p-6 space-y-4">
           {error && (
             <div className="flex items-start gap-2.5 p-3.5 rounded-2xl bg-rose-50 border border-rose-200 text-rose-700 text-xs animate-in fade-in">

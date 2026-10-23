@@ -33,7 +33,7 @@ export const RecipeCard: React.FC<RecipeCardProps> = ({
       onClick={() => onSelect(recipe.id)}
       className="group bg-white rounded-3xl overflow-hidden border border-stone-200/80 shadow-xs hover:shadow-xl hover:border-amber-300/80 transition-all duration-300 flex flex-col cursor-pointer transform hover:-translate-y-1.5 focus-within:ring-2 focus-within:ring-amber-500/50"
     >
-      {/* Image Container */}
+
       <div className="relative aspect-4/3 overflow-hidden bg-stone-100">
         <img
           src={recipe.imageUrl || 'https://images.unsplash.com/photo-1495521821757-a1efb6729352?auto=format&fit=crop&w=800&q=80'}
@@ -45,10 +45,8 @@ export const RecipeCard: React.FC<RecipeCardProps> = ({
           }}
         />
 
-        {/* Subtle shadow gradient overlay */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-black/25 pointer-events-none" />
 
-        {/* Top bar on image: Category badge & Favorite button */}
         <div className="absolute top-3 left-3 right-3 flex items-center justify-between pointer-events-auto">
           <span className="px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider bg-white/95 text-stone-900 backdrop-blur-md shadow-xs border border-white/40">
             {getCategoryLabel(recipe.category)}
@@ -72,7 +70,6 @@ export const RecipeCard: React.FC<RecipeCardProps> = ({
           </button>
         </div>
 
-        {/* Custom Recipe Badge if user created */}
         {recipe.isCustom && (
           <div className="absolute top-3 left-1/2 -translate-x-1/2 pointer-events-none">
             <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-amber-600/90 backdrop-blur-xs text-white shadow-sm border border-amber-400/30">
@@ -82,7 +79,6 @@ export const RecipeCard: React.FC<RecipeCardProps> = ({
           </div>
         )}
 
-        {/* Bottom bar on image: Quick metrics */}
         <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between text-white text-xs font-semibold">
           <div className="flex items-center gap-1.5 bg-black/50 backdrop-blur-md px-2.5 py-1 rounded-full border border-white/10">
             <Clock className="w-3.5 h-3.5 text-amber-400" />
@@ -96,7 +92,6 @@ export const RecipeCard: React.FC<RecipeCardProps> = ({
         </div>
       </div>
 
-      {/* Content Container */}
       <div className="p-5 flex-1 flex flex-col justify-between">
         <div>
           <div className="flex items-center justify-between gap-2 mb-2">
@@ -117,7 +112,6 @@ export const RecipeCard: React.FC<RecipeCardProps> = ({
           </p>
         </div>
 
-        {/* Card Footer */}
         <div className="pt-3 border-t border-stone-100 flex items-center justify-between text-xs font-semibold text-stone-500">
           <div className="flex items-center gap-1.5 text-stone-400">
             <ChefHat className="w-3.5 h-3.5 text-amber-600" />

@@ -1,6 +1,4 @@
-/**
- * Validation des données d'authentification (inscription et connexion).
- */
+
 
 export interface AuthRegisterInput {
   email: string;
@@ -19,17 +17,11 @@ export interface AuthValidationResult<T> {
   errors: string[];
 }
 
-/**
- * Normalise un email : minuscules + trim.
- */
 export function normalizeEmail(email: unknown): string {
   if (typeof email !== 'string') return '';
   return email.trim().toLowerCase();
 }
 
-/**
- * Valide et normalise les données d'inscription.
- */
 export function validateRegister(
   body: unknown
 ): AuthValidationResult<AuthRegisterInput> {
@@ -76,9 +68,6 @@ export function validateRegister(
   };
 }
 
-/**
- * Valide et normalise les données de connexion.
- */
 export function validateLogin(
   body: unknown
 ): AuthValidationResult<AuthLoginInput> {

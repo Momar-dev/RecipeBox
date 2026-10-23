@@ -32,8 +32,7 @@ export const Navbar: React.FC<NavbarProps> = ({
     <header className="sticky top-0 z-40 bg-white/90 backdrop-blur-md border-b border-stone-200/80 shadow-xs transition-colors">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">
-          
-          {/* Brand Logo */}
+
           <div className="flex items-center gap-3">
             <button
               onClick={() => handleNav('home')}
@@ -53,7 +52,6 @@ export const Navbar: React.FC<NavbarProps> = ({
               </div>
             </button>
 
-            {/* About Modal Pill */}
             <button
               onClick={onOpenStageInfo}
               className="hidden xl:inline-flex items-center gap-1.5 ml-3 px-3 py-1.5 rounded-full text-xs font-semibold bg-amber-50/80 text-amber-900 border border-amber-200/70 hover:bg-amber-100 hover:border-amber-300 transition-all cursor-pointer shadow-2xs shrink-0"
@@ -64,7 +62,6 @@ export const Navbar: React.FC<NavbarProps> = ({
             </button>
           </div>
 
-          {/* Desktop Navigation Links */}
           <nav className="hidden md:flex items-center gap-1 lg:gap-2">
             <button
               onClick={() => handleNav('home')}
@@ -108,7 +105,6 @@ export const Navbar: React.FC<NavbarProps> = ({
               <span className="hidden lg:inline">{t.navCreate}</span>
             </button>
 
-            {/* Auth Controls */}
             {isAuthenticated && user ? (
               <div className="flex items-center gap-1.5 lg:gap-2 ml-1 pl-1.5 lg:ml-2 lg:pl-2 border-l border-stone-200 shrink-0">
                 <div 
@@ -139,7 +135,6 @@ export const Navbar: React.FC<NavbarProps> = ({
               </button>
             )}
 
-            {/* Language Switcher */}
             <div className="ml-1 pl-1.5 lg:ml-2 lg:pl-2 border-l border-stone-200 shrink-0">
               <button
                 onClick={toggleLanguage}
@@ -155,9 +150,8 @@ export const Navbar: React.FC<NavbarProps> = ({
             </div>
           </nav>
 
-          {/* Mobile Right Controls */}
           <div className="flex md:hidden items-center gap-1.5">
-            {/* Quick Favorites Shortcut on Mobile */}
+
             <button
               onClick={() => handleNav('favorites')}
               className={`relative p-2 rounded-xl text-stone-700 hover:bg-stone-100 cursor-pointer transition-colors ${
@@ -212,7 +206,6 @@ export const Navbar: React.FC<NavbarProps> = ({
         </div>
       </div>
 
-      {/* Mobile Drawer */}
       {mobileMenuOpen && (
         <div className="md:hidden border-t border-stone-200/90 bg-white/98 backdrop-blur-md px-4 pt-3 pb-6 space-y-2.5 shadow-lg animate-in slide-in-from-top-2 duration-200">
           {isAuthenticated && user && (

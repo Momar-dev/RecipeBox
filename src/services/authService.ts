@@ -1,19 +1,6 @@
 import { AuthUser } from '../types';
 import { API_BASE } from './apiConfig';
 
-/**
- * ─── Note de sécurité architecturale (Stockage du JWT) ──────────────────────────
- * Le JWT est stocké ici dans le `localStorage` pour maintenir la session SPA
- * de façon simple et prévisible entre les rechargements de page.
- *
- * Limite de sécurité XSS :
- * Tout script malveillant injecté dans le contexte du navigateur pourrait lire
- * le contenu du localStorage. Pour mitiger ce risque :
- * 1. React échappe par défaut toutes les interpolations (protection XSS native).
- * 2. Aucune dépendance tierce non vérifiée n'est chargée.
- * 3. En production bancaire ou haute criticité, la solution recommandée est
- *    d'utiliser un cookie avec les drapeaux `HttpOnly; Secure; SameSite=Strict`.
- */
 const TOKEN_STORAGE_KEY = 'recipebox_jwt_token';
 
 export interface AuthApiResponse {
@@ -51,9 +38,7 @@ export const authStorage = {
 };
 
 export class AuthService {
-  /**
-   * Connexion d'un utilisateur existant.
-   */
+
   async login(email: string, password: string): Promise<{ user: AuthUser; token: string }> {
     const res = await fetch(`${API_BASE}/api/auth/login`, {
       method: 'POST',
@@ -73,9 +58,6 @@ export class AuthService {
     return { user: json.data.user, token: json.data.token };
   }
 
-  /**
-   * Inscription d'un nouvel utilisateur.
-   */
   async register(email: string, password: string, name?: string): Promise<{ user: AuthUser; token: string }> {
     const res = await fetch(`${API_BASE}/api/auth/register`, {
       method: 'POST',
@@ -96,9 +78,6 @@ export class AuthService {
     return { user: json.data.user, token: json.data.token };
   }
 
-  /**
-   * Récupère le profil de l'utilisateur connecté via son jeton Bearer.
-   */
   async getMe(token: string): Promise<AuthUser | null> {
     try {
       const res = await fetch(`${API_BASE}/api/auth/me`, {
@@ -121,9 +100,6 @@ export class AuthService {
     }
   }
 
-  /**
-   * Déconnexion locale.
-   */
   logout(): void {
     authStorage.removeToken();
   }

@@ -3,16 +3,11 @@ import { validateImageBuffer } from '../validators/imageValidator';
 import { uploadService } from '../services/uploadService';
 
 export class UploadController {
-  /**
-   * POST /api/uploads/recipe-image
-   * Téléverse une image de recette vers Cloudinary.
-   * Exige une authentification JWT.
-   */
+
   async uploadRecipeImage(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
       const file = req.file;
 
-      // 1. Vérification de présence du fichier
       if (!file) {
         res.status(400).json({
           status: 'error',
@@ -21,7 +16,6 @@ export class UploadController {
         return;
       }
 
-      // 2. Validation approfondie (taille + magic bytes réels du buffer)
       const validation = validateImageBuffer(file.buffer, file.mimetype);
       if (!validation.isValid) {
         res.status(400).json({
@@ -31,7 +25,6 @@ export class UploadController {
         return;
       }
 
-      // 3. Vérification de la configuration de Cloudinary
       if (!uploadService.isConfigured()) {
         res.status(503).json({
           status: 'error',
@@ -41,7 +34,6 @@ export class UploadController {
         return;
       }
 
-      // 4. Téléversement vers Cloudinary (dossier recipe-box/recipes)
       const result = await uploadService.uploadRecipeImage(file.buffer, {
         folder: 'recipe-box/recipes',
       });

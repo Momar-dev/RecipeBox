@@ -3,10 +3,7 @@ import { authService } from '../services/authService';
 import { validateRegister, validateLogin } from '../validators/authValidator';
 
 export class AuthController {
-  /**
-   * POST /api/auth/register
-   * Inscription d'un nouvel utilisateur.
-   */
+
   async register(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
       const validation = validateRegister(req.body);
@@ -42,10 +39,6 @@ export class AuthController {
     }
   }
 
-  /**
-   * POST /api/auth/login
-   * Connexion d'un utilisateur existant.
-   */
   async login(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
       const validation = validateLogin(req.body);
@@ -81,11 +74,6 @@ export class AuthController {
     }
   }
 
-  /**
-   * GET /api/auth/me
-   * Récupère le profil de l'utilisateur connecté.
-   * Route protégée — req.user est injecté par authMiddleware.
-   */
   async getMe(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
       if (!req.user) {

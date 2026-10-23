@@ -19,10 +19,7 @@ const RECIPE_INCLUDE = {
 } as const;
 
 export class FavoriteService {
-  /**
-   * Récupère la liste des recettes favorites d'un utilisateur.
-   * Inclut uniquement les recettes publiques OU appartenant à l'utilisateur.
-   */
+
   async findAll(userId: string): Promise<TransformedRecipe[]> {
     const favorites = await prisma.favorite.findMany({
       where: {
@@ -42,24 +39,17 @@ export class FavoriteService {
     return favorites.map((fav) => transformRecipe(fav.recipe));
   }
 
-  /**
-   * Ajoute une recette aux favoris d'un utilisateur.
-   * Retourne false si la recette n'existe pas ou si l'accès est interdit.
-   * Retourne true si l'ajout a réussi (ou si le favori existait déjà → idempotent).
-   */
   async add(userId: string, recipeId: string): Promise<{ added: boolean; alreadyExists: boolean }> {
-    // Vérifier l'existence et la visibilité de la recette
+
     const recipe = await prisma.recipe.findUnique({ where: { id: recipeId } });
     if (!recipe) {
       return { added: false, alreadyExists: false };
     }
 
-    // Vérifier l'accès : recette publique ou appartenant à l'utilisateur
     if (!recipe.isPublic && recipe.authorId !== userId) {
       return { added: false, alreadyExists: false };
     }
 
-    // Vérifier si le favori existe déjà (upsert pour garantir l'idempotence)
     const existing = await prisma.favorite.findUnique({
       where: { userId_recipeId: { userId, recipeId } },
     });
@@ -75,10 +65,6 @@ export class FavoriteService {
     return { added: true, alreadyExists: false };
   }
 
-  /**
-   * Retire une recette des favoris d'un utilisateur.
-   * Retourne true si la suppression a réussi, false si le favori n'existait pas.
-   */
   async remove(userId: string, recipeId: string): Promise<boolean> {
     const existing = await prisma.favorite.findUnique({
       where: { userId_recipeId: { userId, recipeId } },
@@ -95,9 +81,6 @@ export class FavoriteService {
     return true;
   }
 
-  /**
-   * Vérifie si une recette est dans les favoris d'un utilisateur.
-   */
   async isFavorite(userId: string, recipeId: string): Promise<boolean> {
     const fav = await prisma.favorite.findUnique({
       where: { userId_recipeId: { userId, recipeId } },
@@ -105,9 +88,6 @@ export class FavoriteService {
     return fav !== null;
   }
 
-  /**
-   * Récupère les IDs des recettes favorites d'un utilisateur (format léger).
-   */
   async getFavoriteIds(userId: string): Promise<string[]> {
     const favorites = await prisma.favorite.findMany({
       where: { userId },

@@ -1,7 +1,4 @@
-// ═══════════════════════════════════════════════════════════════════════════
-// Recipe Box — Schéma Prisma
-// Stack : PostgreSQL + Prisma ORM
-// ═══════════════════════════════════════════════════════════════════════════
+
 
 generator client {
   provider = "prisma-client-js"
@@ -11,9 +8,6 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
-
-// ─── Enums ────────────────────────────────────────────────────────────────────
-// Note : 'all' n'est pas une catégorie réelle — c'est un filtre UI frontend.
 
 enum Category {
   starter
@@ -30,8 +24,6 @@ enum Difficulty {
   hard
 }
 
-// ─── User ─────────────────────────────────────────────────────────────────────
-
 model User {
   id           String   @id @default(cuid())
   email        String   @unique
@@ -40,16 +32,11 @@ model User {
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 
-  // Relations
-  // onDelete: SetNull → la suppression d'un utilisateur ne supprime PAS ses recettes.
-  // Cela protège les recettes partagées ou publiques d'une suppression accidentelle.
   recipes   Recipe[]
   favorites Favorite[]
 
   @@map("users")
 }
-
-// ─── Recipe ───────────────────────────────────────────────────────────────────
 
 model Recipe {
   id            String     @id @default(cuid())
@@ -71,11 +58,9 @@ model Recipe {
   createdAt     DateTime   @default(now())
   updatedAt     DateTime   @updatedAt
 
-  // Auteur optionnel — SetNull si l'utilisateur est supprimé (les recettes survivent)
   authorId String?
   author   User?   @relation(fields: [authorId], references: [id], onDelete: SetNull)
 
-  // Relations avec suppression en cascade
   ingredients Ingredient[]
   steps       RecipeStep[]
   tags        RecipeTag[]
@@ -83,8 +68,6 @@ model Recipe {
 
   @@map("recipes")
 }
-
-// ─── Ingredient ───────────────────────────────────────────────────────────────
 
 model Ingredient {
   id       String  @id @default(cuid())
@@ -101,8 +84,6 @@ model Ingredient {
   @@map("ingredients")
 }
 
-// ─── RecipeStep ───────────────────────────────────────────────────────────────
-
 model RecipeStep {
   id            String  @id @default(cuid())
   stepNumber    Int
@@ -116,8 +97,6 @@ model RecipeStep {
 
   @@map("recipe_steps")
 }
-
-// ─── Tag & RecipeTag ──────────────────────────────────────────────────────────
 
 model Tag {
   id     String  @id @default(cuid())
@@ -139,8 +118,6 @@ model RecipeTag {
   @@id([recipeId, tagId])
   @@map("recipe_tags")
 }
-
-// ─── Favorite ─────────────────────────────────────────────────────────────────
 
 model Favorite {
   userId    String
