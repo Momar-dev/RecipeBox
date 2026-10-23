@@ -2,8 +2,8 @@ import request from 'supertest';
 import app from '../src/app';
 import { prisma } from '../src/lib/prisma';
 
-async function runPhase6Tests() {
-  console.log('🧪 Début de la suite de tests Phase 6 : Intégration Frontend API...\n');
+async function runIntegrationTests() {
+  console.log('🧪 Début de la suite de tests : Intégration Frontend API...\n');
   let passed = 0;
   let failed = 0;
 
@@ -156,7 +156,7 @@ async function runPhase6Tests() {
   }
 
   console.log(`\n========================================`);
-  console.log(`RÉSULTAT TOTAL PHASE 6 : ${passed} réussis, ${failed} échoués`);
+  console.log(`RÉSULTAT TOTAL : ${passed} réussis, ${failed} échoués`);
   console.log(`========================================\n`);
 
   if (failed > 0) {
@@ -164,7 +164,7 @@ async function runPhase6Tests() {
   }
 }
 
-runPhase6Tests().catch((err) => {
-  console.error('Fatal Phase 6 test error:', err);
+runIntegrationTests().catch((err) => {
+  console.error('Fatal integration test error:', err);
   process.exit(1);
 });

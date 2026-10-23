@@ -83,8 +83,7 @@ function RecipeBoxMain() {
     setToasts((prev) => prev.filter((toast) => toast.id !== id));
   };
 
-  // Chargement des recettes réelles depuis PostgreSQL Neon (via Express API)
-  // + chargement des favoris depuis l'API (si connecté) ou localStorage (si anonyme)
+  // Chargement des recettes + favoris au démarrage
   const loadData = useCallback(async () => {
     try {
       setLoading(true);
@@ -336,7 +335,7 @@ function RecipeBoxMain() {
               <ChefHat className="w-8 h-8" />
             </div>
             <p className="text-stone-500 font-medium text-sm animate-pulse">
-              Chargement de votre carnet culinaire depuis la base Neon...
+              Chargement de votre carnet culinaire...
             </p>
           </div>
         ) : error ? (

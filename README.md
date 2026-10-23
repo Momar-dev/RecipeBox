@@ -4,6 +4,8 @@ Application web de carnet culinaire développée avec React 19 et Express. Elle 
 
 L'interface est entièrement bilingue (Français / Anglais).
 
+> **Démo en ligne :** [https://recipebox-app-mu.vercel.app/](https://recipebox-app-mu.vercel.app/)
+
 ---
 
 ## Fonctionnalités
@@ -165,7 +167,7 @@ recipe-box/
 │   │   ├── routes/           # Définition des routes de l'API REST
 │   │   ├── services/         # Logique métier et requêtes base de données
 │   │   └── validators/       # Validation des données entrantes et magic bytes
-│   └── tests/                # Suites de tests automatisés (Phases 4 à 7)
+│   └── tests/                # Suites de tests automatisés (auth, upload, favoris, intégration)
 │
 └── tests/                    # Tests unitaires du frontend
 ```

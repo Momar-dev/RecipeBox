@@ -8,4 +8,3 @@ coverage/
 server/.env*
 !.env.example
 !server/.env.example
-.aistudio/

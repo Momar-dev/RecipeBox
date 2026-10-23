@@ -5,7 +5,7 @@ const PORT = parseInt(process.env.PORT || '3001', 10);
 const server = app.listen(PORT, () => {
   console.log(`
   ┌────────────────────────────────────────────┐
-  │   🍽️  Recipe Box API — Phase 1              │
+  │   🍽️  Recipe Box API                        │
   │   Serveur Express + TypeScript actif        │
   │                                             │
   │   Local :  http://localhost:${PORT}          │

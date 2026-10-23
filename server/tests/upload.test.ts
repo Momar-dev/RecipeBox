@@ -5,7 +5,7 @@ import { uploadService } from '../src/services/uploadService';
 import { detectImageFormat, validateImageBuffer } from '../src/validators/imageValidator';
 
 async function runUploadTests() {
-  console.log('🧪 Début de la suite de tests Phase 5 : Upload d\'images & Cloudinary...\n');
+  console.log('🧪 Début de la suite de tests : Upload d\'images & Cloudinary...\n');
   let passed = 0;
   let failed = 0;
 

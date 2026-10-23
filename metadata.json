@@ -1,6 +1,0 @@
-{
-  "name": "Recipe Box",
-  "description": "Application bilingue de gestion et de découverte de recettes de cuisine raffinées.",
-  "requestFramePermissions": [],
-  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
-}

@@ -4,7 +4,7 @@ import app from '../src/app';
 import { prisma } from '../src/lib/prisma';
 
 async function runTests() {
-  console.log('🧪 Début de la suite de tests Phase 4 : Authentification et Sécurité...\n');
+  console.log('🧪 Début de la suite de tests : Authentification et Sécurité...\n');
   let passed = 0;
   let failed = 0;
 

@@ -1,5 +1,5 @@
 /**
- * Recipe Box — Script de seed Prisma (Phase 2)
+ * Recipe Box — Script de seed Prisma
  *
  * Insère les 8 recettes de démonstration dans la base de données.
  * IDEMPOTENT : plusieurs exécutions ne créent pas de doublons.

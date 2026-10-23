@@ -1,5 +1,5 @@
 /**
- * Recipe Box — Tests Phase 7 : Favoris Persistants & Audit d'Intégration Complet
+ * Recipe Box — Tests Favoris & Intégration
  *
  * Scénarios couverts :
  *   1. Endpoints favoris backend (liste, ajout, retrait, idempotence, isolation)
@@ -48,7 +48,7 @@ async function createTestRecipe(token: string, isPublic = true): Promise<string>
     .set('Authorization', `Bearer ${token}`)
     .send({
       title: `Recette de test (${Date.now()})`,
-      description: 'Une recette de test pour la suite Phase 7.',
+      description: 'Une recette de test.',
       category: 'main',
       prepTime: 10,
       cookTime: 20,
@@ -66,8 +66,8 @@ async function createTestRecipe(token: string, isPublic = true): Promise<string>
 
 // ─── Suite de tests ────────────────────────────────────────────────────────────
 
-async function runPhase7Tests(): Promise<void> {
-  console.log('\n🧪 Début de la suite de tests Phase 7 : Favoris & Audit Complet...');
+async function runFavoritesTests(): Promise<void> {
+  console.log('\n🧪 Début de la suite de tests : Favoris...');
 
   const ts = Date.now();
   const email1 = `chef1.p7.${ts}@recipebox-test.dev`;
@@ -326,7 +326,7 @@ async function runPhase7Tests(): Promise<void> {
 
   // ─── Résultats ────────────────────────────────────────────────────────────────
   console.log('\n' + '='.repeat(48));
-  console.log(`RÉSULTAT TOTAL PHASE 7 : ${passed} réussis, ${failed} échoués`);
+  console.log(`RÉSULTAT TOTAL : ${passed} réussis, ${failed} échoués`);
   console.log('='.repeat(48) + '\n');
 
   await prisma.$disconnect();
@@ -336,7 +336,7 @@ async function runPhase7Tests(): Promise<void> {
   }
 }
 
-runPhase7Tests().catch((err) => {
-  console.error('Erreur inattendue dans les tests Phase 7:', err);
+runFavoritesTests().catch((err) => {
+  console.error('Erreur inattendue dans les tests favoris:', err);
   process.exit(1);
 });
